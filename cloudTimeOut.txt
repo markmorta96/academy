@@ -6,6 +6,8 @@
 
     Variable.SetValue("ContentJson", "False");
 
+
+    var cols = ["CustomerKey", "Name", "IsSendable"];
     var post = Platform.Function.ParseJSON(Platform.Request.GetPostData('utf-8'));
 
     if(post != null) {
@@ -35,7 +37,7 @@
 
         if(post.reqID) props.ContinueRequest = post.reqID;
 
-        var req = api.retrieve("DataExtension", ["Name"], filter, opts, props);
+        var req = api.retrieve("DataExtension", cols, filter, opts, props);
 
         if(req) {
 

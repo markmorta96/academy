@@ -17,15 +17,51 @@
 
         if(post == null) return;
 
-        Write("Result of the HTTP request");
+        var res = [];
+
+        var filter = {
+            Property: "CustomerKey",
+            SimpleOperator: "isNotNull",
+            Value: " "
+        };
+
+        var opts = {
+            BatchSize: 300
+        };
+
+        var props = {
+            QueryAllAccounts: false
+        };
+
+        if(post.reqID) props.ContinueRequest = post.reqID;
+
+        var req = api.retrieve("DataExtension", ["Name"], filter, opts, props);
+
+        if(req) {
+
+            var results = req.Results;
+
+            for (var k in results) {
+                res.push(results[k].Name);
+            }
+
+            Write(Stringify({
+                status: (req.HasMoreRows) ? 201 : 200,
+                reqID: req.RequestID,
+                results: res
+            }));
+
+        } else {
+            throw req;
+        }
         
     } catch(error) {
 
-        Write(Stringify(error));
+        Write(Stringify({
+            status: 500,
+            message: error
+        }));
 
     }
 
 </script>
-%%[IF @ContentJson != "True" THEN]%%
-
-%%[ENDIF]%%

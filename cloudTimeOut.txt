@@ -65,6 +65,6 @@
         }));
 
     }
-    Write(res);
+    Write(Stringify(res));
 
 </script>

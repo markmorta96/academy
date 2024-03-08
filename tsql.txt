@@ -1,7 +1,42 @@
-tsql
+Platform.Load("core", "1.1.1");
 
-armscript
+var api = new Script.Util.WSProxy();
 
-	lookup functions
+var columns = ["CustomerKey", "Name", "isSendable",]
 
-armscript developerguide
+var filter = {
+    Property: "Customer_ID",
+    SimpleOperator: "isNotNull",
+    value: ""
+    // SimpleOperator: "equal",
+    // value: "value"
+};
+
+var opts = {
+    BatchSize: 10
+}
+
+var result = [];
+
+var moreData = true;
+//declaration of 2 variables
+var reqID = req = null;
+
+// while(moreData == true) same
+// loop to keep making api calls as long there are more rows
+while(moreData) {
+    moreData = false;
+    if (reqID == null) {
+        // retrive max 2500 records
+        req = api.retrieve("DataExtension", columns, filter);
+    } else {
+        req = api.getNextBatch("DataExtension", reqID);
+    }
+
+    if (req) {
+        moreData = req.HasMoreRows;
+        result.push(req.Results.length);
+    }
+}
+
+Write(Stringify(result));

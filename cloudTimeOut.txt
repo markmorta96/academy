@@ -65,5 +65,5 @@
         }));
 
     }
-
+ Write("hot");
 </script>

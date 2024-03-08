@@ -1,11 +1,22 @@
-<script runat="server" language="Javascript">
-Platform.Load('core', '1.1.1');
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="ROBOTS" content="NOINDEX, NOFOLLOW">
+</head>
+<body>
+<script runat='server'>
+
+    Platform.Load('core', '1.1.1');
+    
     try {
+		
         var referer = Platform.Request.ReferrerURL;
         var regex = /^(https:\/\/(.*\.)?((myawesomeform)\.com))($|\/)/g;
         var match = referer.match(regex);
         var origin = (match.length > 0) ? match[1] : null;
+    
         if (origin != null) {
+    
             HTTPHeader.SetValue('Access-Control-Allow-Methods', 'POST');
             HTTPHeader.SetValue('Access-Control-Allow-Origin', origin);
             Platform.Response.SetResponseHeader('Strict-Transport-Security', 'max-age=200');
@@ -14,11 +25,18 @@ Platform.Load('core', '1.1.1');
             Platform.Response.SetResponseHeader('X-Content-Type-Options', 'nosniff');
             Platform.Response.SetResponseHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
             Platform.Response.SetResponseHeader('Content-Security-Policy', "default-src 'self'");
+    
         } else {
             throw "Wrong origin";
         }
+		
 		/// DO SOMETHING
+		
     } catch(error) {
+    
         Write(Stringify({ status: "Error", message: error }));
+    
     } 		
 </script>
+</body>
+</html>	

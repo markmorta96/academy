@@ -1,0 +1,7 @@
+tsql
+
+armscript
+
+	lookup functions
+
+armscript developerguide

@@ -1,14 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta name="ROBOTS" content="NOINDEX, NOFOLLOW">
-</head>
-<body>
-%%[
-    SET @origin = HTTPRequestHeader("Referer")
-    SET @pattern = "^(https:\/\/(.*\.)?((myawesomeform)\.com))($|\/)"
-    SET @match = RegExMatch(@origin, @pattern, 1)
-]%%
+
 <script runat=server>
     Platform.Load("core","1");
     var MATCH = Variable.GetValue("@match");
@@ -22,14 +12,3 @@
 	Platform.Response.SetResponseHeader("Referrer-Policy","strict-origin-when-cross-origin"); 
 	Platform.Response.SetResponseHeader("Content-Security-Policy","default-src 'self'"); 
 </script>
-%%[
-
-IF LENGTH(@match) > 0 THEN
-
-/* DO SOMETHING */
-
-ENDIF 
-
-]%%
-</body>
-</html>	

@@ -1,69 +1,120 @@
 <script runat="server">
- 
-    Platform.Load("core", "1.1.1");
- 
+
+    Platform.Load("core", "1");
+
     var api = new Script.Util.WSProxy();
- 
+
     Variable.SetValue("ContentJson", "False");
- 
-    var post = {
 
-  reqID: "S0ME-REQUEST-ID"
+    var post = Platform.Function.ParseJSON(Platform.Request.GetPostData('utf-8'));
 
-}
- 
+    if(post != null) {
+        HTTPHeader.SetValue("Content-Type", "application/json");
+        Variable.SetValue("ContentJson", "True");
+    }
+
     try {
- 
-        var result = [];
- 
+
+        if(post == null) return;
+
+        var res = [];
+
         var filter = {
-
             Property: "CustomerKey",
-
             SimpleOperator: "isNotNull",
-
             Value: " "
-
         };
- 
+
         var opts = {
-
             BatchSize: 300
-
         };
- 
+
         var props = {
-
             QueryAllAccounts: false
-
         };
- 
-        if(post.reqID) props.ContinueRequest = post.reqID;
- 
-        var req = api.retrieve("DataExtension", ["Name"], filter, opts, props);
- 
-        if(req) {
- 
-            var results = req.Results;
- 
-            for (var k in results) {
 
-                result.push(results[k].Name);
+        if(post.reqID) props.ContinueRequest = post.reqID;
+
+        var req = api.retrieve("DataExtension", ["Name"], filter, opts, props);
+
+        if(req) {
+
+            var results = req.Results;
+
+            for (var k in results) {
+                res.push(results[k].Name);
+            }
+
+            Write(Stringify({
+                status: (req.HasMoreRows) ? 201 : 200,
+                reqID: req.RequestID,
+                results: res
+            }));
+
+        } else {
+            throw req;
+        }
+        
+    } catch(error) {
+
+        Write(Stringify({
+            status: 500,
+            message: error
+        }));
+
+    }
+
+</script>
+%%[IF @ContentJson != "True" THEN]%%
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    
+    <div id="result"></div>
+
+    <script>
+		
+		var container = document.getElementById("result");
+
+        var status = 0;
+        var reqID = null;
+        var results = [];
+
+        performRequests();
+	
+        async function performRequests() {
+
+            while(status != 200) {
+
+                let req = await performSingleRequest(reqID);
+
+                if(status == 500) break;
+
+                status = req.status;
+                reqID = req.reqID;
+
+                results = [...new Set([...this.results, ...req.results])];
+
+                container.textContent = JSON.stringify(results); 
 
             }
- 
-            Write(Stringify(result));
- 
-        } else {
 
-            throw req;
+            reqID = null
 
         }
+			
+		async function performSingleRequest(reqID) {
 
-    } catch(error) {
- 
-        Write(Stringify(error));
- 
-    }
- 
-</script>
+            return await (await fetch("%%=RequestParameter('PAGEURL')=%%", { method: "POST", body: JSON.stringify({ reqID: reqID }) } )).json();
+
+		}
+
+    </script>
+
+</body>
+</html>
+%%[ENDIF]%%

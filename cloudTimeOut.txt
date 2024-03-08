@@ -1,8 +1,10 @@
 <script runat="server">
 
-    Platform.Load("core", "1");
+    Platform.Load("core","1.1.1");
 
-    var api = new Script.Util.WSProxy();
+    var api = new Script.Util.WSProxy();\
+
+    var cols = ["CustomerKey", "Name", "IsSendable"];
 
     Variable.SetValue("ContentJson", "False");
 
@@ -35,7 +37,7 @@
 
         if(post.reqID) props.ContinueRequest = post.reqID;
 
-        var req = api.retrieve("DataExtension", ["Name"], filter, opts, props);
+        var req = api.retrieve("DataExtension", cols, filter, opts, props);
 
         if(req) {
 

@@ -11,7 +11,7 @@
     try {
 		
         var referer = Platform.Request.ReferrerURL;
-        var regex = /^(https:\/\/(.*\.)?((myawesomeform)\.com))($|\/)/g;
+        var regex = /^(https://mc.s7.exacttarget.com/cloud/#app/CloudPages/))($|\/)/g;
         var match = referer.match(regex);
         var origin = (match.length > 0) ? match[1] : null;
     

@@ -1,42 +1,56 @@
-Platform.Load("core", "1.1.1");
+<script runat="server">
 
-var api = new Script.Util.WSProxy();
+    Platform.Load("core", "1");
 
-var columns = ["CustomerKey", "Name", "isSendable",]
+    var api = new Script.Util.WSProxy();
 
-var filter = {
-    Property: "Customer_ID",
-    SimpleOperator: "isNotNull",
-    value: ""
-    // SimpleOperator: "equal",
-    // value: "value"
-};
+    Variable.SetValue("ContentJson", "False");
 
-var opts = {
-    BatchSize: 10
-}
+    var post = Platform.Function.ParseJSON(Platform.Request.GetPostData('utf-8'));
 
-var result = [];
-
-var moreData = true;
-//declaration of 2 variables
-var reqID = req = null;
-
-// while(moreData == true) same
-// loop to keep making api calls as long there are more rows
-while(moreData) {
-    moreData = false;
-    if (reqID == null) {
-        // retrive max 2500 records
-        req = api.retrieve("DataExtension", columns, filter);
-    } else {
-        req = api.getNextBatch("DataExtension", reqID);
+    if(post != null) {
+        HTTPHeader.SetValue("Content-Type", "application/json");
+        Variable.SetValue("ContentJson", "True");
     }
 
-    if (req) {
-        moreData = req.HasMoreRows;
-        result.push(req.Results.length);
-    }
-}
+    try {
 
-Write(Stringify(result));
+        if(post == null) return;
+
+        Write("Result of the HTTP request");
+        
+    } catch(error) {
+
+        Write(Stringify(error));
+
+    }
+
+</script>
+%%[IF @ContentJson != "True" THEN]%%
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    
+    <div id="result"></div>
+
+    <script>
+  
+	  var container = document.getElementById("result");
+
+	  performRequest().then(text => container.textContent = text);
+
+	  async function performRequest() {
+
+	  		return await (await fetch("%%=RequestParameter('PAGEURL')=%%", { method: "POST", body: "{}" } )).text();
+
+	  }
+
+    </script>
+
+</body>
+</html>
+%%[ENDIF]%%

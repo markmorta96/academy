@@ -1,54 +1,24 @@
-<script runat="server">
- 
-    Platform.Load("core", "1.1.1");
- 
-    var api = new Script.Util.WSProxy();
- 
-    Variable.SetValue("ContentJson", "False");
- 
-    var post = {
-  reqID: "S0ME-REQUEST-ID"
-}
- 
+<script runat="server" language="Javascript">
+Platform.Load('core', '1.1.1');
     try {
- 
-        var result = [];
- 
-        var filter = {
-            Property: "CustomerKey",
-            SimpleOperator: "isNotNull",
-            Value: " "
-        };
- 
-        var opts = {
-            BatchSize: 300
-        };
- 
-        var props = {
-            QueryAllAccounts: false
-        };
- 
-        if(post.reqID) props.ContinueRequest = post.reqID;
- 
-        var req = api.retrieve("DataExtension", ["Name"], filter, opts, props);
- 
-        if(req) {
- 
-            var results = req.Results;
- 
-            for (var k in results) {
-                result.push(results[k].Name);
-            }
- 
-            Write(Stringify(result));
- 
+        var referer = Platform.Request.ReferrerURL;
+        var regex = /^(https:\/\/(.*\.)?((myawesomeform)\.com))($|\/)/g;
+        var match = referer.match(regex);
+        var origin = (match.length > 0) ? match[1] : null;
+        if (origin != null) {
+            HTTPHeader.SetValue('Access-Control-Allow-Methods', 'POST');
+            HTTPHeader.SetValue('Access-Control-Allow-Origin', origin);
+            Platform.Response.SetResponseHeader('Strict-Transport-Security', 'max-age=200');
+            Platform.Response.SetResponseHeader('X-XSS-Protection', '1; mode=block');
+            Platform.Response.SetResponseHeader('X-Frame-Options', 'Deny');
+            Platform.Response.SetResponseHeader('X-Content-Type-Options', 'nosniff');
+            Platform.Response.SetResponseHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+            Platform.Response.SetResponseHeader('Content-Security-Policy', "default-src 'self'");
         } else {
-            throw req;
+            throw "Wrong origin";
         }
+		/// DO SOMETHING
     } catch(error) {
- 
-        Write(Stringify(error));
- 
-    }
- 
+        Write(Stringify({ status: "Error", message: error }));
+    } 		
 </script>

@@ -1,1 +1,56 @@
+<script runat="server">
 
+    Platform.Load("core", "1");
+
+    var api = new Script.Util.WSProxy();
+
+    Variable.SetValue("ContentJson", "False");
+
+    var post = Platform.Function.ParseJSON(Platform.Request.GetPostData('utf-8'));
+
+    if(post != null) {
+        HTTPHeader.SetValue("Content-Type", "application/json");
+        Variable.SetValue("ContentJson", "True");
+    }
+
+    try {
+
+        if(post == null) return;
+
+        Write("Result of the HTTP request");
+        
+    } catch(error) {
+
+        Write(Stringify(error));
+
+    }
+
+</script>
+%%[IF @ContentJson != "True" THEN]%%
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    
+    <div id="result"></div>
+
+    <script>
+  
+	  var container = document.getElementById("result");
+
+	  performRequest().then(text => container.textContent = text);
+
+	  async function performRequest() {
+
+	  		return await (await fetch("%%=RequestParameter('PAGEURL')=%%", { method: "POST", body: "{}" } )).text();
+
+	  }
+
+    </script>
+
+</body>
+</html>
+%%[ENDIF]%%

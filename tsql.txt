@@ -37,5 +37,5 @@ while (moreData) {
     }
 }
  
-Write(Stringify(result.length));
+Write(Stringify(result));
 </script>

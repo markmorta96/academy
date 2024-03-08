@@ -1,4 +1,3 @@
-[12:32 PM] Harper, Anthony James
 <script runat="server">
  
     Platform.Load("core", "1.1.1");

@@ -1,0 +1,56 @@
+<html>
+ 
+<script runat="server">
+   Platform.Load("core","1");
+  var api = new Script.Util.WSProxy();
+ 
+try {
+ 
+    var name = "MyNewQuery";
+ 
+    var request = api.retrieve("QueryDefinition", ["CustomerKey","ObjectID","QueryText","CategoryID"], {
+        Property: "CustomerKey", 
+        SimpleOperator: "equals",
+        Value: "47FCEECC-6DC5-4D8C-BC43-F05BA0E1A405" 
+    });
+ 
+     var objectID = request.Results[0].ObjectID,  
+        queryText = request.Results[0].QueryText,
+        categoryID = request.Results[0].CategoryID;
+ 
+    var updated_query = queryText + ' where i.userId is NOT NULL';
+
+    var request = api.retrieve("DataExtension", ["CustomerKey"], {
+            Property: "Name",
+            SimpleOperator: "equals",
+            Value: "mark_morta_tetl"
+        });
+
+        var targetKey = request.Results[0].CustomerKey;
+
+    var config = {
+        ObjectID: objectID,
+        Description: "My updated query",
+        CategoryID: categoryID,
+        TargetType: "DE",
+        TargetUpdateType: "Overwrite",
+        QueryText: updated_query,
+        DataExtensionTarget: {
+            Name: "mark_morta_tetl",
+            CustomerKey: targetKey
+        }
+    };
+ 
+    var result = api.updateItem("QueryDefinition", config);
+    Write("version3.1"+Stringify(result));
+ 
+} catch(error) {
+ 
+    Write(Stringify(error));
+}
+ 
+</script>
+<body>
+mark
+</body>
+</html>

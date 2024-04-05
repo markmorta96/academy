@@ -1,0 +1,74 @@
+<script runat="server">
+//returns all queries available
+    Platform.Load("core", "1");
+
+    var api = new Script.Util.WSProxy();
+
+    try {
+
+        var cols = [
+            "CategoryID",
+            "CreatedDate",
+            "CustomerKey",
+            "Description",
+            "DataExtensionTarget.Name",
+            "DataExtensionTarget.CustomerKey",
+            "FileSpec",
+            "FileType",
+            "ModifiedDate",
+            "Name",
+            "ObjectID",
+            "QueryText",
+            "Status",
+            "TargetType",
+            "TargetUpdateType"
+        ];
+
+        var filter = {
+            Property: "CustomerKey",
+            SimpleOperator: "isNotNull",
+            Value: " "
+        };
+
+        var opts = {
+            BatchSize: 300
+        };
+
+        var props = {
+            QueryAllAccounts: false
+        };
+
+        var result = [],
+            moreData = true,
+            reqID = data = null;
+
+        while(moreData) {
+
+            moreData = false;
+
+            if(reqID) props.ContinueRequest = reqID;
+
+            var req = api.retrieve("QueryDefinition", cols, filter, opts, props);
+
+            if (req) {
+
+                moreData = req.HasMoreRows;
+                reqID = req.RequestID;
+
+                var results = req.Results;
+
+                for (var k in results) {
+                    result.push(results[k]);
+                }
+
+            }
+        }
+
+        Write(Stringify(result));
+
+    } catch (error) {
+
+        Write(Stringify(error));
+
+    }
+</script>

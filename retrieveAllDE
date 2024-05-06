@@ -42,6 +42,8 @@
         var filter = {
             LeftOperand: {
                 Property: 'CustomerKey',
+                SimpleOperator: 'isNotNull',
+                Value: ' '
             },
             LogicalOperator: "AND",
             RightOperand: {

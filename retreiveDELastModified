@@ -1,5 +1,3 @@
-</script>
-
 <script runat="server">
 
     Platform.Load("core", "1");
@@ -7,19 +5,19 @@
     var results = {};
     var config = {
         parentBU: '518003676'
-    }
- 
- try {
+    };
+
+    try {
         results.dataextensions = retrieveDataExtensions();
         results.count = {
             dataextensions: results.dataextensions.length
         };
         Write(Stringify(results));
   
- } catch(error) {
-        Write(Stringify(error));
-     
+    } catch(error) {
+        Write(Stringify(error));   
     }
+
     function retrieveDataExtensions() {
         var month = new Date();
         month.setDate(month.getDate() - 30); // Get the date 30 days ago
@@ -40,16 +38,14 @@
                 SimpleOperator: 'equals',
                 Value: config.parentBU
             },
-            LogicalOperator: "AND",
-            RightOperand: {
+            RightOperand2: {
                 Property: 'ModifiedDate',
                 SimpleOperator: 'lessThanOrEqual',
-                DateValue: formatteDate
+                DateValue: formattedDate
             }
-            
         };
 
-        var request = api.retrieve("DataExtension", ["Name", "CategoryID"], filter, true);
+        var request = api.retrieveItem("DataExtension", ["Name", "CategoryID"], filter);
         var result = [];
         for(var k in request.Results) {
             result.push({
@@ -58,7 +54,6 @@
             });
         }
         return result;
-
     }
     
 </script>

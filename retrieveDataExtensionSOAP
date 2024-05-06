@@ -1,0 +1,23 @@
+curl --location 'https://YOUR_SUBDOMAIN.soap.marketingcloudapis.com/Service.asmx' \
+--header 'Content-Type: application/xml' \
+--header 'SOAPAction: Retrieve' \
+--data '<?xml version="1.0" encoding="UTF-8"?>
+<s:Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope" xmlns:a="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:u="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+    <s:Header>
+        <fueloauth xmlns="http://exacttarget.com">YOUR_ACCESS_TOKEN</fueloauth>
+    </s:Header>
+    <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <RetrieveRequestMsg xmlns="http://exacttarget.com/wsdl/partnerAPI">
+            <RetrieveRequest>
+                <ObjectType>DataExtension</ObjectType>
+                <Properties>CustomerKey</Properties>
+                <Properties>Name</Properties>
+                <Filter xsi:type="SimpleFilterPart">
+                    <Property>CategoryID</Property>
+                    <SimpleOperator>equals</SimpleOperator>
+                    <Value>YOUR_CATEGORY_ID</Value>
+                </Filter>
+            </RetrieveRequest>
+        </RetrieveRequestMsg>
+    </s:Body>
+</s:Envelope>'

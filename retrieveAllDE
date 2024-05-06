@@ -19,13 +19,6 @@
      
     }
     function retrieveDataExtensions() {
-        var month = new Date();
-        month.setDate(month.getDate() - 30);
-
-         var formattedDate = month.getFullYear() + '-' +
-                        ('0' + (month.getMonth() + 1)).slice(-2) + '-' +
-                        ('0' + month.getDate()).slice(-2) + 'T00:00:00'; // Assuming you're interested in midnight
-
         var filter = {
             LeftOperand: {
                 Property: 'CustomerKey',
@@ -37,13 +30,8 @@
                 Property: 'Client.ID',
                 SimpleOperator: 'equals',
                 Value: config.parentBU
-            },
-            LogicalOperator: "AND",
-            RightOperand: {
-                Property: 'ModifiedDate',
-                SimpleOperator: 'lessThanOrEqual',
-                DateValue: formattedDate // Convert date to ISO string format
             }
+    
             
         };
 

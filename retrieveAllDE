@@ -17,7 +17,7 @@
             shared_dataextensions: results.filtered.length
         };
         table(results);
-         Write(Stringify(results.count));
+        Write(Stringify(results.count));
   
  } catch(error) {
         Write(Stringify(error));
@@ -42,8 +42,6 @@
         var filter = {
             LeftOperand: {
                 Property: 'CustomerKey',
-                SimpleOperator: 'isNotNull',
-                Value: ' '
             },
             LogicalOperator: "AND",
             RightOperand: {
@@ -53,7 +51,7 @@
             }
         };
 
-        var request = api.retrieve("DataExtension", ["Name", "CategoryID"], filter, true);
+        var request = api.retrieve("DataExtension", ["Name", "CategoryID", "ModifiedDate"], filter, true);
         var result = [];
         for(var k in request.Results) {
             result.push({
@@ -93,7 +91,7 @@
     var html = '<table border="1"><tr><th>Data Extension Name</th><th>Category ID</th></tr>';
     
     for (var i = 0; i < results.dataextensions.length; i++) {
-        html += '<tr><td>' + results.dataextensions[i].Name + '</td><td>' + results.dataextensions[i].CategoryID + '</td></tr>';
+        html += '<tr><td>' + results.dataextensions[i].Name + '</td><td>' + results.dataextensions[i].CategoryID + '</td></tr>' + results.dataextensions[i].ModifiedDate + '</td></tr>';
     }
     
     html += '</table>';

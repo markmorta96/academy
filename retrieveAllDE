@@ -9,14 +9,33 @@
  
  try {
         results.dataextensions = retrieveDataExtensions();
+        results.folder_ids = retrieveDataFolderIds();
+        results.filtered = filterSharedDataExtensions(results.dataextensions, results.folder_ids);
         results.count = {
-            dataextensions: results.dataextensions.length
+            dataextensions: results.dataextensions.length,
+            folder_ids: results.folder_ids.length,
+            shared_dataextensions: results.filtered.length
         };
         Write(Stringify(results));
   
  } catch(error) {
         Write(Stringify(error));
      
+    }
+
+    function filterSharedDataExtensions(dataextensions, folder_ids) {
+        var result = [];
+        for(var k in dataextensions) {
+            var dataextension = dataextensions[k];
+            for(var i = 0; i < folder_ids.length; i++) {
+                var folder_id = folder_ids[i];
+                if(dataextension.CategoryID == folder_id) {
+                    result.push(dataextension);
+                }
+            }
+        }
+        return result;
+
     }
     function retrieveDataExtensions() {
         var filter = {
@@ -31,8 +50,6 @@
                 SimpleOperator: 'equals',
                 Value: config.parentBU
             }
-    
-            
         };
 
         var request = api.retrieve("DataExtension", ["Name", "CategoryID"], filter, true);
@@ -46,6 +63,28 @@
         return result;
 
     }
+
+    function retrieveDataFolderIds() {
+        var filter = {
+            LeftOperand: {
+                Property: 'ContentType',
+                SimpleOperator: 'equals',
+                Value: 'shared_dataextension'
+            },
+            LogicalOperator: "AND",
+            RightOperand: {
+                Property: 'Client.ID',
+                SimpleOperator: 'equals',
+                Value: config.parentBU
+            }
+        };
+
+        var request = api.retrieve("DataFolder", ["ID", "Name", "ContentType"], filter, true);
+        var result = [];
+        for(var k in request.Results) {
+            result.push(request.Results[k].ID);
+        }
+        return result;
 
     }
     

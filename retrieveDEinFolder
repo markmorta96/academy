@@ -5,7 +5,8 @@
     var api = new Script.Util.WSProxy();
     var results = {};
     var config = {
-        parentBU: '518003676'
+        parentBU: '518003676',
+        folder: '807708'
     }
  
  try {
@@ -52,11 +53,10 @@
                 SimpleOperator: 'equals',
                 Value: config.parentBU
             },
-            LogicalOperator2: "AND",
             RightOperand2: {
                 Property: 'CategoryID',
                 SimpleOperator: 'equals',
-                Value: '807708'
+                Value: config.folder
             }
         };
 

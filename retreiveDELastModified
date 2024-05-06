@@ -1,0 +1,64 @@
+</script>
+
+<script runat="server">
+
+    Platform.Load("core", "1");
+    var api = new Script.Util.WSProxy();
+    var results = {};
+    var config = {
+        parentBU: '518003676'
+    }
+ 
+ try {
+        results.dataextensions = retrieveDataExtensions();
+        results.count = {
+            dataextensions: results.dataextensions.length
+        };
+        Write(Stringify(results));
+  
+ } catch(error) {
+        Write(Stringify(error));
+     
+    }
+    function retrieveDataExtensions() {
+        var month = new Date();
+        month.setDate(month.getDate() - 30); // Get the date 30 days ago
+
+        var formattedDate = month.getFullYear() + '-' +
+                        ('0' + (month.getMonth() + 1)).slice(-2) + '-' +
+                        ('0' + month.getDate()).slice(-2) + 'T00:00:00';
+                        
+        var filter = {
+            LeftOperand: {
+                Property: 'CustomerKey',
+                SimpleOperator: 'isNotNull',
+                Value: ' '
+            },
+            LogicalOperator: "AND",
+            RightOperand: {
+                Property: 'Client.ID',
+                SimpleOperator: 'equals',
+                Value: config.parentBU
+            },
+            LogicalOperator: "AND",
+            RightOperand: {
+                Property: 'ModifiedDate',
+                SimpleOperator: 'lessThanOrEqual',
+                DateValue: formatteDate
+            }
+            
+        };
+
+        var request = api.retrieve("DataExtension", ["Name", "CategoryID"], filter, true);
+        var result = [];
+        for(var k in request.Results) {
+            result.push({
+                Name: request.Results[k].Name,
+                CategoryID: request.Results[k].CategoryID
+            });
+        }
+        return result;
+
+    }
+    
+</script>

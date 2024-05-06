@@ -16,7 +16,6 @@
             folder_ids: results.folder_ids.length,
             shared_dataextensions: results.filtered.length
         };
-        Write(Stringify(results));
         writeToTable(results);
   
  } catch(error) {

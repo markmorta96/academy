@@ -1,4 +1,4 @@
-version 1.1
+version1.2
 <script runat="server">
 
     Platform.Load("core", "1");
@@ -6,7 +6,8 @@ version 1.1
     var results = {};
     var config = {
         parentBU: '518003676',
-        folder: '807708'
+        folder1: '807708',
+        folder2: '807700'
     }
  
  try {
@@ -55,11 +56,20 @@ version 1.1
                     SimpleOperator: 'equals',
                     Value: config.parentBU
                 },
-                RightOperand: {
-                    Property: 'CategoryID',
-                    SimpleOperator: 'equals',
-                    Value: config.folder
-                }
+                LogicalOperator: "AND",
+                    RightOperand: {
+                        LogicalOperator: "OR",
+                        LeftOperand: {
+                            Property: 'CategoryID',
+                            SimpleOperator: 'equals',
+                            Value: config.folder1
+                        },
+                        RightOperand: {
+                            Property: 'CategoryID',
+                            SimpleOperator: 'equals',
+                            Value: config.folder2
+                        }
+        }
         }
         };
 

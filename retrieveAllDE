@@ -16,7 +16,8 @@
             folder_ids: results.folder_ids.length,
             shared_dataextensions: results.filtered.length
         };
-        writeToTable(results);
+        table(results);
+         Write(Stringify(results.count));
   
  } catch(error) {
         Write(Stringify(error));
@@ -88,7 +89,7 @@
 
     }
 
-    function writeToTable(results) {
+    function table(results) {
     var html = '<table border="1"><tr><th>Data Extension Name</th><th>Category ID</th></tr>';
     
     for (var i = 0; i < results.dataextensions.length; i++) {

@@ -1,4 +1,4 @@
-version1
+version 1.1
 <script runat="server">
 
     Platform.Load("core", "1");
@@ -49,15 +49,18 @@ version1
             },
             LogicalOperator: "AND",
             RightOperand: {
-                Property: 'Client.ID',
-                SimpleOperator: 'equals',
-                Value: config.parentBU
-            },
-            RightOperand2: {
-                Property: 'CategoryID',
-                SimpleOperator: 'equals',
-                Value: config.folder
-            }
+                LogicalOperator: "AND",
+                LeftOperand: {
+                    Property: 'Client.ID',
+                    SimpleOperator: 'equals',
+                    Value: config.parentBU
+                },
+                RightOperand: {
+                    Property: 'CategoryID',
+                    SimpleOperator: 'equals',
+                    Value: config.folder
+                }
+        }
         };
 
         var request = api.retrieve("DataExtension", ["Name", "CustomerKey", "CategoryID", "ModifiedDate"], filter, true);

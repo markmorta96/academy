@@ -1,1 +1,48 @@
+<script runat="server">
 
+    Platform.Load("core", "1");
+    var api = new Script.Util.WSProxy();
+    var results = {};
+    var config = {
+        parentBU: '518003676'
+    }
+ 
+ try {
+        results.dataextensions = retrieveDataExtensions();
+        results.count = {
+            dataextensions: results.dataextensions.length
+        };
+        Write(Stringify(results));
+  
+ } catch(error) {
+        Write(Stringify(error));
+     
+    }
+    function retrieveDataExtensions() {
+        var filter = {
+            LeftOperand: {
+                Property: 'CustomerKey',
+                SimpleOperator: 'isNotNull',
+                Value: ' '
+            },
+            LogicalOperator: "AND",
+            RightOperand: {
+                Property: 'Client.ID',
+                SimpleOperator: 'equals',
+                Value: config.parentBU
+            }
+        };
+
+        var request = api.retrieve("DataExtension", ["Name", "CategoryID"], filter, true);
+        var result = [];
+        for(var k in request.Results) {
+            result.push({
+                Name: request.Results[k].Name,
+                CategoryID: request.Results[k].CategoryID
+            });
+        }
+        return result;
+
+    }
+    
+</script>

@@ -97,7 +97,7 @@
     
     for (var i = 0; i < results.dataextensions.length; i++) {
         html += '<tr><td>' + results.dataextensions[i].Name + '</td><td>' + results.dataextensions[i].CustomerKey + '</td><td>' + results.dataextensions[i].CategoryID + 
-            '</td></td>' + results.dataextensions[i].ModifiedDate + '</td></tr>';
+            '</td><td>' + results.dataextensions[i].ModifiedDate + '</td></tr>';
     }
     
     html += '</table>';

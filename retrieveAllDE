@@ -17,6 +17,7 @@
             shared_dataextensions: results.filtered.length
         };
         Write(Stringify(results));
+        writeToTable(results);
   
  } catch(error) {
         Write(Stringify(error));
@@ -87,5 +88,19 @@
         return result;
 
     }
+
+    function writeToTable(results) {
+    var html = '<table border="1"><tr><th>Data Extension Name</th><th>Category ID</th></tr>';
+    
+    for (var i = 0; i < results.dataextensions.length; i++) {
+        html += '<tr><td>' + results.dataextensions[i].Name + '</td><td>' + results.dataextensions[i].CategoryID + '</td></tr>';
+    }
+    
+    html += '</table>';
+    
+    Write(html);
+}
+
+
     
 </script>

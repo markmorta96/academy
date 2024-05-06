@@ -93,6 +93,11 @@
     }
 
     function table(results) {
+
+    results.dataextensions.sort(function(a, b) {
+            return new Date(b.ModifiedDate) - new Date(a.ModifiedDate);
+    });
+
     var html = '<table border="1"><tr><th>Data Extension Name</th><th>Customer Key</th><th>Category ID</th><th>Last Modified Date</th></tr>';
     
     for (var i = 0; i < results.dataextensions.length; i++) {

@@ -51,12 +51,15 @@
             }
         };
 
-        var request = api.retrieve("DataExtension", ["Name", "CategoryID", "ModifiedDate"], filter, true);
+        var request = api.retrieve("DataExtension", ["Name", "CustomerKey", "CategoryID", "ModifiedDate"], filter, true);
         var result = [];
         for(var k in request.Results) {
             result.push({
                 Name: request.Results[k].Name,
-                CategoryID: request.Results[k].CategoryID
+                CustomerKey: request.Results[k].CustomerKey,
+                CategoryID: request.Results[k].CategoryID,
+                ModifiedDate: request.Results[k].ModifiedDate
+
             });
         }
         return result;
@@ -88,10 +91,11 @@
     }
 
     function table(results) {
-    var html = '<table border="1"><tr><th>Data Extension Name</th><th>Category ID</th><th>Last Modified Date</th></tr>';
+    var html = '<table border="1"><tr><th>Data Extension Name</th><th>Customer Key</th><th>Category ID</th><th>Last Modified Date</th></tr>';
     
     for (var i = 0; i < results.dataextensions.length; i++) {
-        html += '<tr><td>' + results.dataextensions[i].Name + '</td><td>' + results.dataextensions[i].CategoryID + '</td></td>' + results.dataextensions[i].ModifiedDate + '</td></tr>';
+        html += '<tr><td>' + results.dataextensions[i].Name + '</td><td>' + results.dataextensions[i].CustomerKey + '</td><td>' + results.dataextensions[i].CategoryID + 
+            '</td></td>' + results.dataextensions[i].ModifiedDate + '</td></tr>';
     }
     
     html += '</table>';

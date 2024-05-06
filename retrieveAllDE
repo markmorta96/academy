@@ -88,7 +88,7 @@
     }
 
     function table(results) {
-    var html = '<table border="1"><tr><th>Data Extension Name</th><th>Category ID</th></tr>';
+    var html = '<table border="1"><tr><th>Data Extension Name</th><th>Category ID</th><th>Last Modified Date</th></tr>';
     
     for (var i = 0; i < results.dataextensions.length; i++) {
         html += '<tr><td>' + results.dataextensions[i].Name + '</td><td>' + results.dataextensions[i].CategoryID + '</td></tr>' + results.dataextensions[i].ModifiedDate + '</td></tr>';

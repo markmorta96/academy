@@ -19,6 +19,8 @@
      
     }
     function retrieveDataExtensions() {
+        var month = new Date();
+        month.setDate(month.getDate() - 30);
         var filter = {
             LeftOperand: {
                 Property: 'CustomerKey',
@@ -30,7 +32,14 @@
                 Property: 'Client.ID',
                 SimpleOperator: 'equals',
                 Value: config.parentBU
+            },
+            LogicalOperator: "AND",
+            RightOperand: {
+                Property: 'ModifiedDate',
+                SimpleOperator: 'lessThanOrEqual',
+                DateValue: month.toISOString() // Convert date to ISO string format
             }
+            
         };
 
         var request = api.retrieve("DataExtension", ["Name", "CategoryID"], filter, true);
@@ -42,6 +51,8 @@
             });
         }
         return result;
+
+    }
 
     }
     

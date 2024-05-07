@@ -1,8 +1,8 @@
 <script runat=server>
     Platform.Load("core","1");
-    var updateDE = DataExtension.Init('demoDE'); //DE ExternalKey 
+    var updateDE = DataExtension.Init('demoDEtoMove'); //DE ExternalKey 
     var newFolder =  {
-        CategoryID : "95232" // FolderID
+        CategoryID : "807700" // FolderID
     };
     var myDE = updateDE.Update(newFolder);Write(myDE);
     

@@ -1,23 +1,26 @@
 <script runat="server">
-  Platform.Load("core", "1.1.1");
+   Platform.Load("core", "1.1.1");
+  
+   var DEsToDelete = 'example' //DataExtension containing the list of DEs to Delete
+                               //must have two fields: 'Name' (name of the DE) and 'isprocessed' (boolean value with default value false)
+   
+   var api = new Script.Util.WSProxy();
+   var rowstoprocess = DataExtension.Init(DEsToDelete).Rows.Lookup(["isprocessed"],[0])
+     
+     for(j=0; j < rowstoprocess.length; j ++ ) 
+  {
+   var dataExtensionName = rowstoprocess[j].DEName
  
-  var api = new Script.Util.WSProxy();
-  var rowstoprocess = DataExtension.Init("DEtoDelete").Rows.Lookup(["isprocessed"],[0])
-    
-    for(j=0; j < rowstoprocess.length; j ++ ) 
- {
-  var dataExtensionName = rowstoprocess[j].DEName
-
-  var req = api.retrieve("DataExtension", ["CustomerKey"], {
-   Property: "Name",
-   SimpleOperator: "equals",
-   Value: dataExtensionName
-  });
-
-  var customerKey = req.Results[0].CustomerKey;
-
-  var res = api.deleteItem("DataExtension", { "CustomerKey":customerKey });
-
-  DataExtension.Init('DEtoDelete').Rows.Update({"isprocessed": "1"}, ["DEName"], [dataExtensionName]);
- }
+   var req = api.retrieve("DataExtension", ["CustomerKey"], {
+    Property: "Name",
+    SimpleOperator: "equals",
+    Value: dataExtensionName
+   });
+ 
+   var customerKey = req.Results[0].CustomerKey;
+ 
+   var res = api.deleteItem("DataExtension", { "CustomerKey":customerKey });
+ 
+   DataExtension.Init(DEsToDelete).Rows.Update({"isprocessed": "1"}, ["DEName"], [dataExtensionName]);
+  }
 </script>

@@ -20,9 +20,8 @@
         
         var updateDE = DataExtension.Init(req); //DE ExternalKey 
         
-        var myDE = updateDE.Update(newFolder); Write(myDE);
-
-        DataExtension.Init('DEsToMove').Rows.Update({ "isprocessed": "1" }, ["DEName"], [dataExtensionName]);
+        var myDE = updateDE.Update(newFolder); 
+        DataExtension.Init('DEsToMove').Rows.Update({ "isprocessed": "1" }, ["Name"], [dataExtensionName]);
 
 
 

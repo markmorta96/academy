@@ -1,0 +1,6 @@
+<script runat=server>
+Platform.Load("core","1");
+var updateDE = DataExtension.Init('demoDE'); //DE ExternalKey var newFolder = {
+    CategoryID : "95232" // FolderID};var myDE = updateDE.Update(newFolder);Write(myDE);
+
+</script>

@@ -9,7 +9,7 @@
      
      for(j=0; j < rowstoprocess.length; j ++ ) 
   {
-   var dataExtensionName = rowstoprocess[j].DEName
+   var dataExtensionName = rowstoprocess[j].Name
  
    var req = api.retrieve("DataExtension", ["CustomerKey"], {
     Property: "Name",
@@ -21,6 +21,6 @@
  
    var res = api.deleteItem("DataExtension", { "CustomerKey":customerKey });
  
-   DataExtension.Init(DEsToDelete).Rows.Update({"isprocessed": "1"}, ["DEName"], [dataExtensionName]);
+   DataExtension.Init(DEsToDelete).Rows.Update({"isprocessed": "1"}, ["Name"], [dataExtensionName]);
   }
 </script>

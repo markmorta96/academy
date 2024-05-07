@@ -1,7 +1,7 @@
 <script runat="server">
    Platform.Load("core", "1.1.1");
   
-   var DEsToDelete = 'example' //DataExtension containing the list of DEs to Delete
+   var DEsToDelete = 'example' //Name of the DataExtension containing the list of DEs to Delete
                                //must have two fields: 'Name' (name of the DE) and 'isprocessed' (boolean value with default value false)
    
    var api = new Script.Util.WSProxy();

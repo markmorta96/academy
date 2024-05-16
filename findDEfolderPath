@@ -7,7 +7,7 @@
     var DEname = FindDE[0].Name;
     var list = [];
     list.push(DEname);
-    var path = function (id) {
+    var path = function he(id) {
         if (id > 0) {
             var results = Folder.Retrieve({ Property: "ID", SimpleOperator: "equals", Value: id });
             list.unshift(results[0].Name);

@@ -47,16 +47,8 @@
 
             var endpoint = restInstanceUrl + "interaction/v1/interactions/pause/";
 
-            endpoint += journeyId + "?versionNumber=1&allVersions=false";
+            endpoint += journeyId + "?versionNumber=2";
 
-            var payload = {
-                "ExtendWaitEndDates": false,
-                "PausedDays": 15,
-                "ProcessWaitUntilEvents": true,
-                "GuardrailAction": "Resume",
-                "RetainContactInjectionWhileJourneyPaused": true,
-                "id": journeyId
-            }
 
             var request = new Script.Util.HttpRequest(endpoint);
             request.emptyContentHandling = 0;
@@ -66,7 +58,7 @@
             request.method = "POST";
             request.contentType = "application/json";
             request.encoding = "UTF-8";
-            request.postData = Stringify(payload);
+            request.postData = "";
 
             var results = request.send();
 

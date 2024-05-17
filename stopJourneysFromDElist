@@ -22,24 +22,45 @@
     }
     // Function to pause a journey
     function pauseJourney(journeyID, accessToken) {
-        var url = 'https://' + subDomain + '.rest.marketingcloudapis.com/interaction/v1/interactions/pause/' + journeyID +'?versionNumber=4&allVersions=false';
+       var restInstanceUrl = "https://YOUR_SUBDOMAIN.rest.marketingcloudapis.com/",
+        accessToken     = "YOUR_REST_API_TOKEN";
+	
+	try {
+
+        var journeyId = "S0M3-GU1D-K3Y-G03SR1G4T-H3R3";
+
+        var endpoint = restInstanceUrl + "interaction/v1/interactions/pause/";
+
+            endpoint += journeyId + "?versionNumber=1&allVersions=false";
+
         var payload = {
             "ExtendWaitEndDates": false,
-            "PausedDays": 14,
+            "PausedDays": 15,
             "ProcessWaitUntilEvents": true,
             "GuardrailAction": "Resume",
             "RetainContactInjectionWhileJourneyPaused": true,
-            "id": journeyID,
-            "version": 4
-        };
+            "id": journeyId
+        }
 
-        var header = {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + accessToken
-        };
+        var request = new Script.Util.HttpRequest(endpoint);
+            request.emptyContentHandling = 0;
+            request.retries = 2;
+            request.continueOnError = true;
+            request.setHeader("Authorization", "Bearer " + accessToken);
+            request.method = "POST";
+            request.contentType = "application/json";
+            request.encoding = "UTF-8";
+            request.postData = Stringify(payload);
 
-        var result = HTTP.Post(url, header, Stringify(payload));
-        return result;
+        var results = request.send();
+
+        var result = Platform.Function.ParseJSON(String(results.content));
+
+        Write(Stringify(result));
+		
+	} catch(error) {
+        Write(Stringify(error));
+    }	
     }
 
     // Function to get access token

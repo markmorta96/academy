@@ -2,10 +2,10 @@
     Platform.Load("Core","1");
     var payload = {
     "grant_type": "client_credentials",
-    "client_id": "yyyyyyyyyyyyyyyyyyy",
-    "client_secret": "xxxxxxxxxxxxxxxxxx"
+    "client_id": "mn45cd0jj7p35w185ezn8l1t",
+    "client_secret": "XB2QlLYh5GtRYrhPcVkACrgc"
 };
-var authurl = "https://zzzzzzzzzzzzzzzzzz.auth.marketingcloudapis.com/v2/token";
+var authurl = "https://mc4fr7rnvdyszcxppqbhvywvjcd4.auth.marketingcloudapis.com/v2/token";
 var result = HTTP.Post(authurl, 'application/json', Stringify(payload));
   
 if (result.StatusCode == 200) {

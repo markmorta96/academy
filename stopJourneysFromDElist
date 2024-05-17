@@ -44,7 +44,7 @@
 
         if (result.StatusCode == 200) {
             var response = Platform.Function.ParseJSON(result.Response[0]);
-            return response.access_token;
+            return response[0].access_token;
         } else {
             Write("Error retrieving access token: " + result.StatusCode + " - " + result.Response[0]);
             return null;

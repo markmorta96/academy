@@ -45,10 +45,7 @@
 
             var journeyId = journeyID;
 
-            var endpoint = restInstanceUrl + "interaction/v1/interactions/pause/";
-
-            endpoint += journeyId + "?versionNumber=2";
-
+            var endpoint = restInstanceUrl + "interaction/v1/interactions/pause/" + journeyId + "?versionNumber=2";
 
             var request = new Script.Util.HttpRequest(endpoint);
             request.emptyContentHandling = 0;

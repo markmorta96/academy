@@ -1,5 +1,5 @@
 <script runat="server">
-    Platform.Load("Core", "1");
+    Platform.Load("Core", "1.1.5");
 
     // Configuration
     var journeyToPause = "journeyToPause"; // Replace with your Data Extension name
@@ -10,6 +10,7 @@
 
      var accessToken = getAccessToken(clientId, clientSecret, subDomain);
     Write(accessToken);
+    Write("v1");
    
 
     // Function to get access token

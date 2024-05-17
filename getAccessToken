@@ -1,6 +1,6 @@
 <script runat="server">
         Platform.Load("Core", "1");
-/*
+
         // Configuration
         var journeyToPause = "journeyToPause"; // Replace with your Data Extension name
         var subDomain = "mc4fr7rnvdyszcxppqbhvywvjcd4"; // Replace with your subdomain
@@ -19,7 +19,7 @@
         var header = {
             "Content-Type": "application/json"
         };
-*/
+
         Write("f");
 //        var result = HttpPost(url, header, Stringify(payload));
 

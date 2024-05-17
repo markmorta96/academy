@@ -12,9 +12,9 @@
     Write(accessToken);
     var rowstoprocess = DataExtension.Init(journeyToPause).Rows.Lookup(["isprocessed"], [0]);
     for (j = 0; j < rowstoprocess.length; j++) {
-        var journeyName = rowstoprocess[j].JourneyID;
-        var journeyVersion = rowstoprocess[j].JourneyVersion;
-        pauseJourney(journeyName, accessToken, journeyVersion);
+        var journeyName = rowstoprocess[j].journeyid;
+        var journeyVersion = rowstoprocess[j].versionNumber;
+        pauseJourney(journeyName, accessToken, journeyVersion, subDomain);
         DataExtension.Init(journeyToPause).Rows.Update({ "isprocessed": "1" }, ["JourneyID"], [journeyName]);
     }
 
@@ -38,8 +38,8 @@
         return accessToken;
     }
 
-    function pauseJourney(journeyID, accessToken2, journeyVersion2) {
-        var restInstanceUrl = "https://mc4fr7rnvdyszcxppqbhvywvjcd4.rest.marketingcloudapis.com/",
+    function pauseJourney(journeyID, accessToken2, journeyVersion2, subDomain2) {
+        var restInstanceUrl = "https://" + subDomain2 + ".rest.marketingcloudapis.com/",
             accessToken1 = accessToken2;
 
         try {
@@ -62,10 +62,7 @@
 
             var result = Platform.Function.ParseJSON(String(results.content));
 
-            Write(Stringify(result));
-
         } catch (error) {
-            Write(Stringify(error));
         }
     }
 

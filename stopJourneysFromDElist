@@ -11,6 +11,12 @@
      var accessToken = getAccessToken(clientId, clientSecret, subDomain);
     Write(accessToken);
     Write("v1");
+    var rowstoprocess = DataExtension.Init(journeyToPause).Rows.Lookup(["isprocessed"], [0]);
+    for (j = 0; j < rowstoprocess.length; j++) {
+        var journeyName = rowstoprocess[j].Name;
+        pauseJourney(journeyName, accessToken);
+        DataExtension.Init(journeyToPause).Rows.Update({ "isprocessed": "1" }, ["JourneyID"], [journeyName]);
+    }
    
 
     // Function to get access token

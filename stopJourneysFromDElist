@@ -8,16 +8,15 @@
     var clientSecret = "XB2QlLYh5GtRYrhPcVkACrgc"; // Replace with your Client Secret
     var accountID = "518003676"; // Replace with your MID
 
-     var accessToken = getAccessToken(clientId, clientSecret, subDomain);
+    var accessToken = getAccessToken(clientId, clientSecret, subDomain);
     Write(accessToken);
-    Write("v1");
     var rowstoprocess = DataExtension.Init(journeyToPause).Rows.Lookup(["isprocessed"], [0]);
     for (j = 0; j < rowstoprocess.length; j++) {
         var journeyName = rowstoprocess[j].Name;
-        pauseJourney(journeyName, accessToken);
+        var journeyIDt = getJourneyID(journeyName);
+        pauseJourney(journeyIDt, accessToken);
         DataExtension.Init(journeyToPause).Rows.Update({ "isprocessed": "1" }, ["JourneyID"], [journeyName]);
     }
-   
 
     // Function to get access token
     function getAccessToken(clientId1, clientSecret1, subDomain1) {
@@ -78,6 +77,24 @@
 
         } catch (error) {
             Write(Stringify(error));
+        }
+    }
+
+    function getJourneyID(journeyName1) {
+        var prox = new Script.Util.WSProxy();
+        var cols = ["DefinitionID", "Name"];
+        var filter = {
+            Property: "Name",
+            SimpleOperator: "equals",
+            Value: journeyName1
+        };
+        var data = prox.retrieve("Journey", cols, filter);
+
+        if (data && data.Results && data.Results.length > 0) {
+            return data.Results[0].DefinitionID;
+        } else {
+            Write("Journey not found: " + journeyName1 + "<br>");
+            return null;
         }
     }
 

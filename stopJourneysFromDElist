@@ -13,7 +13,8 @@
     var rowstoprocess = DataExtension.Init(journeyToPause).Rows.Lookup(["isprocessed"], [0]);
     for (j = 0; j < rowstoprocess.length; j++) {
         var journeyName = rowstoprocess[j].JourneyID;
-        pauseJourney(journeyName, accessToken);
+        var journeyVersion = rowstoprocess[j].JourneyVersion;
+        pauseJourney(journeyName, accessToken, journeyVersion);
         DataExtension.Init(journeyToPause).Rows.Update({ "isprocessed": "1" }, ["JourneyID"], [journeyName]);
     }
 
@@ -21,10 +22,10 @@
     function getAccessToken(clientId1, clientSecret1, subDomain1) {
         var payload = {
             "grant_type": "client_credentials",
-            "client_id": "mn45cd0jj7p35w185ezn8l1t",
-            "client_secret": "XB2QlLYh5GtRYrhPcVkACrgc"
+            "client_id": clientId1,
+            "client_secret": clientSecret1
         };
-        var authurl = "https://mc4fr7rnvdyszcxppqbhvywvjcd4.auth.marketingcloudapis.com/v2/token";
+        var authurl = "https://" +subDomain1 + ".auth.marketingcloudapis.com/v2/token";
         var result = HTTP.Post(authurl, 'application/json', Stringify(payload));
 
         if (result.StatusCode == 200) {
@@ -37,7 +38,7 @@
         return accessToken;
     }
 
-    function pauseJourney(journeyID, accessToken2) {
+    function pauseJourney(journeyID, accessToken2, journeyVersion2) {
         var restInstanceUrl = "https://mc4fr7rnvdyszcxppqbhvywvjcd4.rest.marketingcloudapis.com/",
             accessToken1 = accessToken2;
 
@@ -45,7 +46,7 @@
 
             var journeyId = journeyID;
 
-            var endpoint = restInstanceUrl + "interaction/v1/interactions/pause/" + journeyId + "?versionNumber=2";
+            var endpoint = restInstanceUrl + "interaction/v1/interactions/pause/" + journeyId + "?versionNumber=" + journeyVersion2;
 
             var request = new Script.Util.HttpRequest(endpoint);
             request.emptyContentHandling = 0;

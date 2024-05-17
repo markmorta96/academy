@@ -8,7 +8,7 @@
     var clientSecret = "XB2QlLYh5GtRYrhPcVkACrgc"; // Replace with your Client Secret
     var accountID = "518003676"; // Replace with your MID
 
-    var accessToken = getAccessToken(clientId, clientSecret);
+    var accessToken = getAccessToken(clientId, clientSecret, subDomain);
 
     if (accessToken) {
         var de = DataExtension.Init(journeyToPause);

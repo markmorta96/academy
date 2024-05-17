@@ -21,7 +21,7 @@
         };
 */
         Write("f");
-        var result = HttpPost(url, header, Stringify(payload));
+//        var result = HttpPost(url, header, Stringify(payload));
 
         /*
         if (result.StatusCode == 200) {

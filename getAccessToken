@@ -1,4 +1,4 @@
-<script runat="server">
+ <script runat="server">
         Platform.Load("Core", "1");
 
         // Configuration
@@ -21,9 +21,6 @@
         };
 
         var result = HttpPost(url, header, Stringify(payload));
-        Write("HTTP POST Status: " + result.StatusCode + "<br>");
-        Write("HTTP POST Response: " + result.Response[0] + "<br>");
-
         if (result.StatusCode == 200) {
             var response = Platform.Function.ParseJSON(result.Response[0]);
             Write(Stringify(response.access_token));

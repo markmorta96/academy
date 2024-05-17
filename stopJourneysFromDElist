@@ -79,23 +79,5 @@
         }
     }
 
-    function getJourneyID(journeyName1) {
-        var prox = new Script.Util.WSProxy();
-        var cols = ["DefinitionID", "Name"];
-        var filter = {
-            Property: "Name",
-            SimpleOperator: "equals",
-            Value: journeyName1
-        };
-        var data = prox.retrieve("Journey", cols, filter);
-
-        if (data && data.Results && data.Results.length > 0) {
-            return data.Results[0].DefinitionID;
-        } else {
-            Write("Journey not found: " + journeyName1 + "<br>");
-            return null;
-        }
-    }
-
     
 </script>

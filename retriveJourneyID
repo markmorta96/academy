@@ -5,7 +5,7 @@
         var filter = {
             Property: "Name",
             SimpleOperator: "equals",
-            Value: journeyName
+            Value: "mark morta new journey"
         };
         var data = prox.retrieve("Journey", cols, filter);
 

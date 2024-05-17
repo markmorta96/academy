@@ -10,7 +10,12 @@
 
     var accessToken = getAccessToken(clientId, clientSecret, subDomain);
     Write(accessToken);
-    
+    var rowstoprocess = DataExtension.Init(DEsToMove).Rows.Lookup(["isprocessed"], [0]);
+    for (j = 0; j < rowstoprocess.length; j++) {
+        var journeyName = rowstoprocess[j].Name;
+        pauseJourney(journeyName, accessToken)
+        DataExtension.Init(journeyToPause).Rows.Update({ "isprocessed": "1" }, ["JourneyID"], [journeyName]);
+    }
 
     // Function to get access token
     function getAccessToken(clientId1, clientSecret1, subDomain1) {
@@ -32,46 +37,47 @@
         return accessToken;
     }
 
-    function pauseJourney(journeyID, accessToken) {
-    var restInstanceUrl = "https://mc4fr7rnvdyszcxppqbhvywvjcd4.rest.marketingcloudapis.com/",
-        accessToken1 = accessToken;
+    function pauseJourney(journeyID, accessToken2) {
+        var restInstanceUrl = "https://mc4fr7rnvdyszcxppqbhvywvjcd4.rest.marketingcloudapis.com/",
+            accessToken1 = accessToken2;
 
-    try {
+        try {
 
-        var journeyId = journeyID;
+            var journeyId = journeyID;
 
-        var endpoint = restInstanceUrl + "interaction/v1/interactions/pause/";
+            var endpoint = restInstanceUrl + "interaction/v1/interactions/pause/";
 
-        endpoint += journeyId + "?versionNumber=1&allVersions=false";
+            endpoint += journeyId + "?versionNumber=1&allVersions=false";
 
-        var payload = {
-            "ExtendWaitEndDates": false,
-            "PausedDays": 15,
-            "ProcessWaitUntilEvents": true,
-            "GuardrailAction": "Resume",
-            "RetainContactInjectionWhileJourneyPaused": true,
-            "id": journeyId
+            var payload = {
+                "ExtendWaitEndDates": false,
+                "PausedDays": 15,
+                "ProcessWaitUntilEvents": true,
+                "GuardrailAction": "Resume",
+                "RetainContactInjectionWhileJourneyPaused": true,
+                "id": journeyId
+            }
+
+            var request = new Script.Util.HttpRequest(endpoint);
+            request.emptyContentHandling = 0;
+            request.retries = 2;
+            request.continueOnError = true;
+            request.setHeader("Authorization", "Bearer " + accessToken1);
+            request.method = "POST";
+            request.contentType = "application/json";
+            request.encoding = "UTF-8";
+            request.postData = Stringify(payload);
+
+            var results = request.send();
+
+            var result = Platform.Function.ParseJSON(String(results.content));
+
+            Write(Stringify(result));
+
+        } catch (error) {
+            Write(Stringify(error));
         }
-
-        var request = new Script.Util.HttpRequest(endpoint);
-        request.emptyContentHandling = 0;
-        request.retries = 2;
-        request.continueOnError = true;
-        request.setHeader("Authorization", "Bearer " + accessToken1);
-        request.method = "POST";
-        request.contentType = "application/json";
-        request.encoding = "UTF-8";
-        request.postData = Stringify(payload);
-
-        var results = request.send();
-
-        var result = Platform.Function.ParseJSON(String(results.content));
-
-        Write(Stringify(result));
-
-    } catch (error) {
-        Write(Stringify(error));
     }
-}
 
+    
 </script>

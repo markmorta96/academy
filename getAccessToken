@@ -21,15 +21,13 @@
     };
 
     Write("f");
-//        var result = HttpPost(url, header, Stringify(payload));
+    var result = HttpPost(url, header, Stringify(payload));
 
-    /*
     if (result.StatusCode == 200) {
         var response = Platform.Function.ParseJSON(result.Response[0]);
         Write(Stringify(response.access_token));
     } else {
         Write("Error retrieving access token: " + result.StatusCode + " - " + result.Response[0] + "<br>");
     }
-    */
 
 </script>

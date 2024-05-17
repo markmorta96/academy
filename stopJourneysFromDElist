@@ -1,0 +1,70 @@
+<script runat="server">
+    Platform.Load("Core", "1.1.5");
+
+    // Configuration
+    var deName = "YourDataExtensionName"; // Replace with your Data Extension name
+    var subDomain = "YOUR_SUBDOMAIN"; // Replace with your subdomain
+    var clientId = "YOUR_CLIENT_ID"; // Replace with your Client ID
+    var clientSecret = "YOUR_CLIENT_SECRET"; // Replace with your Client Secret
+
+    // Function to get access token
+    function getAccessToken(clientId, clientSecret) {
+        var url = 'https://' + subDomain + '.auth.marketingcloudapis.com/v2/token';
+        var payload = {
+            "grant_type": "client_credentials",
+            "client_id": clientId,
+            "client_secret": clientSecret
+        };
+
+        var header = {
+            "Content-Type": "application/json"
+        };
+
+        var result = HTTP.Post(url, header, Stringify(payload));
+        if (result.StatusCode == 200) {
+            var response = Platform.Function.ParseJSON(result.Response[0]);
+            return response.access_token;
+        } else {
+            Write("Error retrieving access token: " + result.StatusCode + " - " + result.Response[0]);
+            return null;
+        }
+    }
+
+    // Function to pause a journey
+    function pauseJourney(journeyID, accessToken) {
+        var url = 'https://' + subDomain + '.rest.marketingcloudapis.com/interaction/v1/interactions/pause/' + journeyID + '?versionNumber=4&allVersions=false';
+        var payload = {
+            "ExtendWaitEndDates": false,
+            "PausedDays": 14,
+            "ProcessWaitUntilEvents": true,
+            "GuardrailAction": "Resume",
+            "RetainContactInjectionWhileJourneyPaused": true,
+            "id": journeyID,
+            "version": 4
+        };
+
+        var header = {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + accessToken
+        };
+
+        var result = HTTP.Post(url, header, Stringify(payload));
+        return result;
+    }
+
+    // Retrieve access token
+    var accessToken = getAccessToken(clientId, clientSecret);
+
+    if (accessToken) {
+        // Retrieve rows from Data Extension
+        var de = DataExtension.Init(deName);
+        var rows = de.Rows.Retrieve();
+
+        // Loop through rows and pause each journey
+        for (var i = 0; i < rows.length; i++) {
+            var journeyID = rows[i].JourneyID;
+            var response = pauseJourney(journeyID, accessToken);
+            Write("Journey ID: " + journeyID + " - Response: " + response.StatusCode + "<br>");
+        }
+    }
+</script>

@@ -6,54 +6,23 @@
     var subDomain = "mc4fr7rnvdyszcxppqbhvywvjcd4"; // Replace with your subdomain
     var clientId = "mn45cd0jj7p35w185ezn8l1t"; // Replace with your Client ID
     var clientSecret = "XB2QlLYh5GtRYrhPcVkACrgc"; // Replace with your Client Secret
-    var accountID = "518003676" // Replace with your mid
+    var accountID = "518003676"; // Replace with your MID
 
-    // Retrieve access token
-    var accessToken = getAccessToken(clientId, clientSecret, accountID);
-    Write(Stringify(accessToken));
-    /*
+    var accessToken = getAccessToken(clientId, clientSecret);
+
     if (accessToken) {
         var de = DataExtension.Init(journeyToPause);
         var rows = de.Rows.Retrieve();
-        
+
         for (var i = 0; i < rows.length; i++) {
-            var journeyID = rows[i].JourneyID;
-            var response = pauseJourney(journeyID, accessToken);
-            //DataExtension.Init(journeyToPause).Rows.Update({ "isprocessed": "1" }, [journeyID], [dataExtensionName]);
-            
-            //Write("Journey ID: " + journeyID + " - Response: " + response.StatusCode + "<br>");
+            var journeyID = rows[i].JourneyID; var response = pauseJourney(journeyID,accessToken);
+            DataExtension.Init(journeyToPause).Rows.Update({ "isprocessed": "1" }, [journeyID], [dataExtensionName]);
+            Write("Journey ID: " + journeyID + " - Response: " + response.StatusCode + " <br>");
         }
     }
-    */
-
-    // Function to get access token
-    function getAccessToken(clientId, clientSecret, accountID) {
-        var url = 'https://' + subDomain + '.auth.marketingcloudapis.com/v2/token';
-        var payload = {
-            "grant_type": "client_credentials",
-            "client_id": clientId,
-            "client_secret": clientSecret,
-            "account_id": accountID
-        };
-
-        var header = {
-            "Content-Type": "application/json"
-        };
-
-        var result = HTTP.Post(url, header, Stringify(payload));
-
-        if (result.StatusCode == 200) {
-            var response = Platform.Function.ParseJSON(result.Response[0]);
-            return response[0].access_token;
-        } else {
-            Write("Error retrieving access token: " + result.StatusCode + " - " + result.Response[0]);
-            return null;
-        }
-    }
-    /*
     // Function to pause a journey
     function pauseJourney(journeyID, accessToken) {
-        var url = 'https://' + subDomain + '.rest.marketingcloudapis.com/interaction/v1/interactions/pause/' + journeyID + '?versionNumber=4&allVersions=false';
+        var url = 'https://' + subDomain + '.rest.marketingcloudapis.com/interaction/v1/interactions/pause/' + journeyID +'?versionNumber=4&allVersions=false';
         var payload = {
             "ExtendWaitEndDates": false,
             "PausedDays": 14,
@@ -72,6 +41,25 @@
         var result = HTTP.Post(url, header, Stringify(payload));
         return result;
     }
-    */
+
+    // Function to get access token
+    function getAccessToken(clientId1, clientSecret1, subDomain1) {
+        var payload = {
+            "grant_type": "client_credentials",
+            "client_id": "mn45cd0jj7p35w185ezn8l1t",
+            "client_secret": "XB2QlLYh5GtRYrhPcVkACrgc"
+        };
+        var authurl = "https://mc4fr7rnvdyszcxppqbhvywvjcd4.auth.marketingcloudapis.com/v2/token";
+        var result = HTTP.Post(authurl, 'application/json', Stringify(payload));
+
+        if (result.StatusCode == 200) {
+            var responseJson = Platform.Function.ParseJSON(result.Response[0]);
+            var accessToken = responseJson.access_token;
+            var restUrl = responseJson.rest_instance_url;
+        } else {
+            throw new Error("Error fetching access token");
+        }
+        return accessToken;
+    }
 
 </script>

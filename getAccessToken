@@ -1,1 +1,42 @@
+<script runat="server">
+    Platform.Load("Core", "1");
 
+    // Configuration
+    var journeyToPause = "journeyToPause"; // Replace with your Data Extension name
+    var subDomain = "mc4fr7rnvdyszcxppqbhvywvjcd4"; // Replace with your subdomain
+    var clientId = "mn45cd0jj7p35w185ezn8l1t"; // Replace with your Client ID
+    var clientSecret = "XB2QlLYh5GtRYrhPcVkACrgc"; // Replace with your Client Secret
+    var accountID = "518003676" // Replace with your mid
+
+    // Retrieve access token
+    var accessToken = getAccessToken(clientId, clientSecret, accountID);
+    Write(Stringify(accessToken));
+   
+
+    // Function to get access token
+    function getAccessToken(clientId, clientSecret, accountID) {
+        var url = 'https://' + subDomain + '.auth.marketingcloudapis.com/v2/token';
+        var payload = {
+            "grant_type": "client_credentials",
+            "client_id": clientId,
+            "client_secret": clientSecret,
+            "account_id": accountID
+        };
+
+        var header = {
+            "Content-Type": "application/json"
+        };
+
+        var result = HTTP.Post(url, header, Stringify(payload));
+
+        if (result.StatusCode == 200) {
+            var response = Platform.Function.ParseJSON(result.Response[0]);
+            return response[0].access_token;
+        } else {
+            Write("Error retrieving access token: " + result.StatusCode + " - " + result.Response[0]);
+            return null;
+        }
+    }
+    
+
+</script>

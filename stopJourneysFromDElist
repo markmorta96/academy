@@ -8,9 +8,9 @@
     var clientSecret = "XB2QlLYh5GtRYrhPcVkACrgc"; // Replace with your Client Secret
     var accountID = "518003676"; // Replace with your MID
 
-    var accessToken = getAccessToken(clientId, clientSecret, subDomain);
+     var accessToken = getAccessToken(clientId, clientSecret, subDomain);
     Write(accessToken);
-    var rowstoprocess = DataExtension.Init(DEsToMove).Rows.Lookup(["isprocessed"], [0]);
+    var rowstoprocess = DataExtension.Init(journeyToPause).Rows.Lookup(["isprocessed"], [0]);
     for (j = 0; j < rowstoprocess.length; j++) {
         var journeyName = rowstoprocess[j].Name;
         pauseJourney(journeyName, accessToken)

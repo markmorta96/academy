@@ -9,20 +9,20 @@
     var accountID = "518003676"; // Replace with your MID
 
     // Function to get access token
-    function getAccessToken(clientId, clientSecret, accountID) {
-        var url = 'https://' + subDomain + '.auth.marketingcloudapis.com/v2/token';
+    function getAccessToken(clientId1, clientSecret1, accountID1, subDomain1) {
+        var url = 'https://' + subDomain1 + '.auth.marketingcloudapis.com/v2/token';
         var payload = {
             "grant_type": "client_credentials",
-            "client_id": clientId,
-            "client_secret": clientSecret,
-            "account_id": accountID
+            "client_id": clientId1,
+            "client_secret": clientSecret1,
+            "account_id": accountID1
         };
 
         var header = {
             "Content-Type": "application/json"
         };
 
-        var result = HTTP.Post(url, header, Stringify(payload));
+        var result = HttpPost(url, header, Stringify(payload));
         Write("HTTP POST Status: " + result.StatusCode + "<br>");
         Write("HTTP POST Response: " + result.Response[0] + "<br>");
 
@@ -36,7 +36,7 @@
     }
 
     // Retrieve access token
-    var accessToken = getAccessToken(clientId, clientSecret, accountID);
+    var accessToken = getAccessToken(clientId, clientSecret, accountID, subDomain);
     Write("Access Token: " + accessToken + "<br>");
 
 </script>

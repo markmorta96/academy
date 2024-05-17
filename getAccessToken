@@ -22,7 +22,7 @@
             "Content-Type": "application/json"
         };
 
-        var result = HTTP.Post(url, header, Stringify(payload));
+        var result = HttpPost(url, header, Stringify(payload));
         Write("HTTP POST Status: " + result.StatusCode + "<br>");
         Write("HTTP POST Response: " + result.Response[0] + "<br>");
 

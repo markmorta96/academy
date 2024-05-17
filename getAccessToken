@@ -8,12 +8,12 @@
     var clientSecret = "XB2QlLYh5GtRYrhPcVkACrgc"; // Replace with your Client Secret
     var accountID = "518003676"; // Replace with your MID
 
-    var url = "https://" + subDomain + ".auth.marketingcloudapis.com/v2/token";
+    var url = "https://mc4fr7rnvdyszcxppqbhvywvjcd4.auth.marketingcloudapis.com/v2/token";
     var payload = {
         "grant_type": "client_credentials",
-        "client_id": clientId,
-        "client_secret": clientSecret,
-        "account_id": accountID
+        "client_id": "mn45cd0jj7p35w185ezn8l1t",
+        "client_secret": "XB2QlLYh5GtRYrhPcVkACrgc",
+        "account_id": "518003676"
     };
 
     var header = {

@@ -71,12 +71,12 @@
                     "content",
                     "data"
                 ]
-        }
+        };
         var headerName = [
-            "Authorization",
+            "Authorization"
         ];
         var headerValue = [
-            "Bearer " + accessToken2,
+            "Bearer " + accessToken2
         ];
         var endpoint = "https://" + subDomain2 + ".rest.marketingcloudapis.com/v1/content/assets/query";
         var result = HTTP.Post(endpoint, 'application/json', Stringify(payload), headerName, headerValue);

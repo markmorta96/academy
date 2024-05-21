@@ -34,7 +34,7 @@
     function queryAssets(accessToken2, subDomain2) {
         var restInstanceUrl = "https://" + subDomain2 + ".rest.marketingcloudapis.com/",
             accessToken1 = accessToken2;
-
+            Write("----functioning");
         var payload = {
             "page":
             {
@@ -77,7 +77,7 @@
 
         try {
 
-
+            Write("----entered");
             var endpoint = restInstanceUrl + "asset/v1/content/assets/query";
 
             var request = new Script.Util.HttpRequest(endpoint);

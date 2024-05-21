@@ -8,6 +8,7 @@
     var accountID = "518003676"; // Replace with your MID
 
     var accessToken = getAccessToken(clientId, clientSecret, subDomain);
+    Write(accessToken);
     queryAssets(accessToken, subDomain);
 
 
@@ -32,9 +33,6 @@
     }
 
     function queryAssets(accessToken2, subDomain2) {
-        var restInstanceUrl = "https://" + subDomain2 + ".rest.marketingcloudapis.com/",
-            accessToken1 = accessToken2;
-            Write("----functioning");
         var payload = {
             "page":
             {
@@ -46,9 +44,9 @@
             {
                 "leftOperand":
                 {
-                    "property": "assetType.name",
-                    "simpleOperator": "isNotNull",
-                    "value": ""
+                    "property": "createdDate",
+                    "simpleOperator": "lessThan",
+                    "value": "2023-01-01T13:35:27.327-06:00"
                 },
                 "logicalOperator": "AND",
                 "rightOperand":
@@ -73,31 +71,24 @@
                     "content",
                     "data"
                 ]
+        };
+        var headerName = [
+            "Authorization"
+        ];
+        var headerValue = [
+            "Bearer " + accessToken2
+        ];
+        var endpoint = "https://" + subDomain2 + ".rest.marketingcloudapis.com/v1/content/assets/query";
+        var result = HTTP.Post(endpoint, 'application/json', Stringify(payload), headerName, headerValue);
+
+        if (result.StatusCode == 200) {
+            var responseJson = Platform.Function.ParseJSON(result.Response[0]);
+            Write(Stringify(responseJson));
+            var restUrl = responseJson.rest_instance_url;
+        } else {
+            throw new Error("Error fetching access token");
         }
-
-        try {
-
-            Write("----entered");
-            var endpoint = restInstanceUrl + "asset/v1/content/assets/query";
-
-            var request = new Script.Util.HttpRequest(endpoint);
-            request.emptyContentHandling = 0;
-            request.retries = 2;
-            request.continueOnError = true;
-            request.setHeader("Authorization", "Bearer " + accessToken1);
-            request.method = "POST";
-            request.contentType = "application/json";
-            request.encoding = "UTF-8";
-            request.postData = "";
-            request.payload = payload;
-
-            var results = request.send();
-
-            var result = Platform.Function.ParseJSON(String(results.content));
-            Write(result);
-        } catch (error) {
-            Write("----error");
-        }
+        return responseJson;
     }
 
 

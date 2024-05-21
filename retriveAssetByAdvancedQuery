@@ -32,65 +32,7 @@
         return accessToken;
     }
 
-    function queryAssets(accessToken2, subDomain2) {
-            accessToken1 = accessToken2;
-        var payload = {
-            "page":
-            {
-                "page": 1,
-                "pageSize": 50
-            },
 
-            "query":
-            {
-                "leftOperand":
-                {
-                    "property": "createdDate",
-                    "simpleOperator": "lessThan",
-                    "value": "2023-01-01T13:35:27.327-06:00"
-                },
-                "logicalOperator": "AND",
-                "rightOperand":
-                {
-                    "property": "assetType.name",
-                    "simpleOperator": "isNotNull",
-                    "value": ""
-                }
-            },
-
-            "sort":
-                [
-                    { "property": "id", "direction": "ASC" }
-                ],
-
-            "fields":
-                [
-                    "enterpriseId",
-                    "memberId",
-                    "thumbnail",
-                    "category",
-                    "content",
-                    "data"
-                ]
-        }
-        var headerName = [
-            "Authorization",
-        ];
-        var headerValue = [
-            "Bearer " + accessToken2,
-        ];
-        var endpoint = "https://" + subDomain2 + ".rest.marketingcloudapis.com/v1/content/assets/query";
-        var result = HTTP.Post(endpoint, 'application/json', Stringify(payload), headerName, headerValue);
-
-        if (result.StatusCode == 200) {
-            var responseJson = Platform.Function.ParseJSON(result.Response[0]);
-            Write(Stringify(responseJson));
-            var restUrl = responseJson.rest_instance_url;
-        } else {
-            throw new Error("Error fetching access token");
-        }
-        return responseJson;
-    }
 
 
 </script>

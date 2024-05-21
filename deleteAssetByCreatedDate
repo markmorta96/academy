@@ -5,9 +5,14 @@
     var subDomain = "mc4fr7rnvdyszcxppqbhvywvjcd4"; // Replace with your subdomain
     var clientId = "mn45cd0jj7p35w185ezn8l1t"; // Replace with your Client ID
     var clientSecret = "XB2QlLYh5GtRYrhPcVkACrgc"; // Replace with your Client Secret
+    var mustContainString = "QRbla" // Replace with your must contain naming convention
 
+    var asset_id = [];
     var accessToken = getAccessToken(clientId, clientSecret, subDomain);
-    queryAssets(accessToken, subDomain);
+    asset_id = (accessToken, subDomain);
+    for (var i = 0; i < asset_id.length; i++) {
+        //deleteAsset(accessToken, subDomain, asset_id[i]);
+    }
 
 
     // Function to get access token
@@ -44,14 +49,14 @@
                 {
                     "property": "createdDate",
                     "simpleOperator": "lessThan",
-                    "value": "2023-01-01T13:35:27.327-06:00"
+                    "value": "2025-01-01T13:35:27.327-06:00"
                 },
                 "logicalOperator": "AND",
                 "rightOperand":
                 {
-                    "property": "assetType.name",
+                    "property": "Name",
                     "simpleOperator": "isNotNull",
-                    "value": ""
+                    "value": mustContainString
                 }
             },
 
@@ -77,11 +82,49 @@
         var headerValue = [bearerToken];
         try {
             var result = HTTP.Post(endpoint, contenttype, Stringify(payload), headerName, headerValue);
-            Write(Stringify(result.Response));
-            
+            var jsonResponse = Platform.Function.ParseJSON(result.Response[0]);
+            var items = jsonResponse.items;
+            for (var i = 0; i < items.length; i++) {
+                Write("Asset ID: " + items[i].id + "<br>");
+            }
+            return items;
         } catch (error) {
+            Write(fuck);
         }
         
+    }
+
+    function deleteAsset(accessToken3, subDomain3, assetID) {
+        var api = new Script.Util.WSProxy();
+
+        var restInstanceUrl = "https://" + subDomain3 + ".rest.marketingcloudapis.com/",
+            accessToken = accessToken3;
+
+        try {
+
+            var id = assetID;
+
+            var endpoint = restInstanceUrl + "asset/v1/content/assets/" + id;
+
+            var request = new Script.Util.HttpRequest(endpoint);
+            request.emptyContentHandling = 0;
+            request.retries = 2;
+            request.continueOnError = true;
+            request.setHeader("Authorization", "Bearer " + accessToken);
+            request.method = "DELETE";
+            request.contentType = "application/json";
+
+            var results = request.send();
+
+            var result = results.statusCode;
+
+            Write(Stringify(result));
+
+        } catch (error) {
+
+            Write(Stringify(error));
+
+        }
     }
 
 

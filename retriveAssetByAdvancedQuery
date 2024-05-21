@@ -7,7 +7,7 @@
     var clientSecret = "XB2QlLYh5GtRYrhPcVkACrgc"; // Replace with your Client Secret
 
     var accessToken = getAccessToken(clientId, clientSecret, subDomain);
-    Write("v2");
+    Write("v6");
     queryAssets(accessToken, subDomain);
 
 
@@ -71,11 +71,15 @@
                     "data"
                 ]
         };
-        var endpoint = "https://" + subDomain2 + ".rest.marketingcloudapis.com/v1/content/assets/query";
+        var endpoint = "https://" + subDomain2 + ".rest.marketingcloudapis.com/asset/v1/content/assets/query";
+        var contenttype = 'application/json';
+        var bearerToken = 'Bearer ' + accessToken2;
+        var headerName = ['Authorization'];
+        var headerValue = [bearerToken];
         try {
-            var result = HTTP.Post(endpoint, 'application/json', Stringify(payload), "Authorization", "Bearer " + accessToken2);
-            Write(Stringify(result));
-            return result;
+            var result = HTTP.Post(endpoint, contenttype, Stringify(payload), headerName, headerValue);
+            Write(result.Content);
+            
         } catch (error) {
             Write("fuck");
         }

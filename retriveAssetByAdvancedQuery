@@ -79,13 +79,9 @@
             "Bearer " + accessToken2
         ];
         var endpoint = "https://" + subDomain2 + ".rest.marketingcloudapis.com/v1/content/assets/query";
-        var result = HTTP.Post(endpoint, 'application/json', Stringify(payload), headerName, headerValue);
+        var result = HTTP.Post(endpoint, 'application/json', Stringify(payload), "Authorization", "Bearer " + accessToken2);
 
-        if (result.StatusCode == 200) {
-            Write(Stringify(result));
-        } else {
-            throw new Error("Error");
-        }
+        Write(Stringify(result));
         return result;
         Write("returned");
     }

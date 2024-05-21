@@ -9,7 +9,7 @@
 
     var asset_id = [];
     var accessToken = getAccessToken(clientId, clientSecret, subDomain);
-    asset_id = (accessToken, subDomain);
+    asset_id = queryAssets(accessToken, subDomain);
     for (var i = 0; i < asset_id.length; i++) {
         //deleteAsset(accessToken, subDomain, asset_id[i]);
     }

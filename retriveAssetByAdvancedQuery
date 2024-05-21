@@ -82,13 +82,11 @@
         var result = HTTP.Post(endpoint, 'application/json', Stringify(payload), headerName, headerValue);
 
         if (result.StatusCode == 200) {
-            var responseJson = Platform.Function.ParseJSON(result.Response[0]);
-            Write(Stringify(responseJson));
-            var restUrl = responseJson.rest_instance_url;
+            Write(Stringify(result));
         } else {
             throw new Error("Error");
         }
-        return responseJson;
+        return result;
         Write("returned");
     }
 

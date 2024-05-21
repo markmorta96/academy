@@ -7,8 +7,7 @@
     var clientSecret = "XB2QlLYh5GtRYrhPcVkACrgc"; // Replace with your Client Secret
 
     var accessToken = getAccessToken(clientId, clientSecret, subDomain);
-    queryAssets(accessToken, subDomain);
-    Write(v1);
+    var idList = queryAssets(accessToken, subDomain);
 
 
     // Function to get access token
@@ -78,14 +77,12 @@
         var headerValue = [bearerToken];
         try {
             var result = HTTP.Post(endpoint, contenttype, Stringify(payload), headerName, headerValue);
-            listofids = [];
-            for(var k in result.Response[0].items.lenght) {
-            listofids.push({
-                Id: request.Response[0].items[k].id
-            })
-            Write(Stringify(listofids[k]) + " ");
-        };
-            
+            var jsonResponse = Platform.Function.ParseJSON(result.Response[0]);
+            var items = jsonResponse.items;
+            for (var i = 0; i < items.length; i++) {
+                Write("Asset ID: " + items[i].id + "<br>");
+            }
+            return items;
         } catch (error) {
             Write(fuck);
         }

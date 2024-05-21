@@ -89,6 +89,7 @@
             throw new Error("Error fetching access token");
         }
         return responseJson;
+        Write(returned);
     }
 
 

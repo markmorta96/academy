@@ -9,7 +9,7 @@
 
     var accessToken = getAccessToken(clientId, clientSecret, subDomain);
     Write(accessToken);
-    //queryAssets(accessToken, subDomain);
+    queryAssets(accessToken, subDomain);
 
 
     // Function to get access token

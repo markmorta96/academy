@@ -5,10 +5,8 @@
     var subDomain = "mc4fr7rnvdyszcxppqbhvywvjcd4"; // Replace with your subdomain
     var clientId = "mn45cd0jj7p35w185ezn8l1t"; // Replace with your Client ID
     var clientSecret = "XB2QlLYh5GtRYrhPcVkACrgc"; // Replace with your Client Secret
-    var accountID = "518003676"; // Replace with your MID
 
     var accessToken = getAccessToken(clientId, clientSecret, subDomain);
-    Write(accessToken);
     queryAssets(accessToken, subDomain);
 
 
@@ -72,24 +70,18 @@
                     "data"
                 ]
         };
-        var headerName = [
-            "Authorization"
-        ];
-        var headerValue = [
-            "Bearer " + accessToken2
-        ];
-        var endpoint = "https://" + subDomain2 + ".rest.marketingcloudapis.com/v1/content/assets/query";
-        var result = HTTP.Post(endpoint, 'application/json', Stringify(payload), headerName, headerValue);
-
-        if (result.StatusCode == 200) {
-            var responseJson = Platform.Function.ParseJSON(result.Response[0]);
-            Write(Stringify(responseJson));
-            var restUrl = responseJson.rest_instance_url;
-        } else {
-            throw new Error("Error fetching access token");
+        var endpoint = "https://" + subDomain2 + ".rest.marketingcloudapis.com/asset/v1/content/assets/query";
+        var contenttype = 'application/json';
+        var bearerToken = 'Bearer ' + accessToken2;
+        var headerName = ['Authorization'];
+        var headerValue = [bearerToken];
+        try {
+            var result = HTTP.Post(endpoint, contenttype, Stringify(payload), headerName, headerValue);
+            Write(Stringify(result.Response));
+            
+        } catch (error) {
         }
-        return responseJson;
-        Write(returned);
+        
     }
 
 

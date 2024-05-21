@@ -89,7 +89,7 @@
         } else {
             throw new Error("Error fetching access token");
         }
-        return c;
+        return responseJson;
     }
 
 

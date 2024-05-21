@@ -8,7 +8,6 @@
     var accountID = "518003676"; // Replace with your MID
 
     var accessToken = getAccessToken(clientId, clientSecret, subDomain);
-    Write(accessToken);
     queryAssets(accessToken, subDomain);
 
 
@@ -35,7 +34,7 @@
     function queryAssets(accessToken2, subDomain2) {
         var restInstanceUrl = "https://" + subDomain2 + ".rest.marketingcloudapis.com/",
             accessToken1 = accessToken2;
-
+            Write("----functioning");
         var payload = {
             "page":
             {
@@ -78,14 +77,14 @@
 
         try {
 
-
+            Write("----entered");
             var endpoint = restInstanceUrl + "asset/v1/content/assets/query";
 
             var request = new Script.Util.HttpRequest(endpoint);
             request.emptyContentHandling = 0;
             request.retries = 2;
             request.continueOnError = true;
-            request.setHeader("Authorization", "Bearer " + accessToken2);
+            request.setHeader("Authorization", "Bearer " + accessToken1);
             request.method = "POST";
             request.contentType = "application/json";
             request.encoding = "UTF-8";
@@ -97,6 +96,7 @@
             var result = Platform.Function.ParseJSON(String(results.content));
             Write(result);
         } catch (error) {
+            Write("----error");
         }
     }
 

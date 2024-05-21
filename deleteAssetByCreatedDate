@@ -8,6 +8,7 @@
     var accountID = "518003676"; // Replace with your MID
 
     var accessToken = getAccessToken(clientId, clientSecret, subDomain);
+    Write(accessToken);
     queryAssets(accessToken, subDomain);
 
 

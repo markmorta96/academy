@@ -1,3 +1,4 @@
+v1
 <script runat="server">
     Platform.Load("Core", "1");
 
@@ -7,11 +8,10 @@
     var clientSecret = "XB2QlLYh5GtRYrhPcVkACrgc"; // Replace with your Client Secret
     var mustContainString = "QRbla" // Replace with your must contain naming convention
 
-    var asset_id = [];
     var accessToken = getAccessToken(clientId, clientSecret, subDomain);
-    asset_id = queryAssets(accessToken, subDomain);
+    var asset_id = queryAssets(accessToken, subDomain);
     for (var i = 0; i < asset_id.length; i++) {
-        //deleteAsset(accessToken, subDomain, asset_id[i]);
+        deleteAsset(accessToken, subDomain, asset_id[i]);
     }
 
 
@@ -55,7 +55,7 @@
                 "rightOperand":
                 {
                     "property": "Name",
-                    "simpleOperator": "isNotNull",
+                    "simpleOperator": "like",
                     "value": mustContainString
                 }
             },
@@ -96,7 +96,7 @@
 
     function deleteAsset(accessToken3, subDomain3, assetID) {
         var api = new Script.Util.WSProxy();
-
+        Write(assetID);
         var restInstanceUrl = "https://" + subDomain3 + ".rest.marketingcloudapis.com/",
             accessToken = accessToken3;
 
@@ -119,7 +119,12 @@
             var result = results.statusCode;
 
             Write(Stringify(result));
-
+            if(result == "200"){
+              Write("Asset " + assetID + "has been Deleted");
+            }else {
+              Write("Error");
+            }
+            
         } catch (error) {
 
             Write(Stringify(error));

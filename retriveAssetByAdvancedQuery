@@ -5,11 +5,10 @@
     var subDomain = "mc4fr7rnvdyszcxppqbhvywvjcd4"; // Replace with your subdomain
     var clientId = "mn45cd0jj7p35w185ezn8l1t"; // Replace with your Client ID
     var clientSecret = "XB2QlLYh5GtRYrhPcVkACrgc"; // Replace with your Client Secret
-    var accountID = "518003676"; // Replace with your MID
 
     var accessToken = getAccessToken(clientId, clientSecret, subDomain);
     Write("v1");
-    queryAssets(accessToken, subDomain);
+    //queryAssets(accessToken, subDomain);
 
 
     // Function to get access token
@@ -72,15 +71,8 @@
                     "data"
                 ]
         };
-        var headerName = [
-            "Authorization"
-        ];
-        var headerValue = [
-            "Bearer " + accessToken2
-        ];
         var endpoint = "https://" + subDomain2 + ".rest.marketingcloudapis.com/v1/content/assets/query";
         var result = HTTP.Post(endpoint, 'application/json', Stringify(payload), "Authorization", "Bearer " + accessToken2);
-
         Write(Stringify(result));
         return result;
         Write("returned");

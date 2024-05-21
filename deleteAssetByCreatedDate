@@ -85,7 +85,7 @@
             request.emptyContentHandling = 0;
             request.retries = 2;
             request.continueOnError = true;
-            request.setHeader("Authorization", "Bearer " + accessToken1);
+            request.setHeader("Authorization", "Bearer " + accessToken2);
             request.method = "POST";
             request.contentType = "application/json";
             request.encoding = "UTF-8";

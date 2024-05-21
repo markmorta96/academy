@@ -104,7 +104,7 @@
 
             var id = assetID;
 
-            var endpoint = restInstanceUrl + "asset/v1/content/assets/" + id;
+            var endpoint = restInstanceUrl + "asset/v1/content/assets/" + assetID;
 
             var request = new Script.Util.HttpRequest(endpoint);
             request.emptyContentHandling = 0;

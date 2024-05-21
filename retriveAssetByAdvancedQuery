@@ -32,25 +32,6 @@
     }
 
     function queryAssets(accessToken2, subDomain2) {
-        var payload = {
-            "grant_type": "client_credentials",
-            "client_id": clientId1,
-            "client_secret": clientSecret1
-        };
-        var authurl = "https://" + subDomain1 + ".auth.marketingcloudapis.com/v2/token";
-        var result = HTTP.Post(authurl, 'application/json', Stringify(payload));
-
-        if (result.StatusCode == 200) {
-            var responseJson = Platform.Function.ParseJSON(result.Response[0]);
-            var accessToken = responseJson.access_token;
-            var restUrl = responseJson.rest_instance_url;
-        } else {
-            throw new Error("Error fetching access token");
-        }
-        return accessToken;
-    }
-
-    function queryAssets(accessToken2, subDomain2) {
         var restInstanceUrl = "https://" + subDomain2 + ".rest.marketingcloudapis.com/",
             accessToken1 = accessToken2;
         var payload = {

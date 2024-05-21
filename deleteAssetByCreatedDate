@@ -1,4 +1,4 @@
-v2
+v1
 <script runat="server">
     Platform.Load("Core", "1");
 
@@ -6,7 +6,8 @@ v2
     var subDomain = "mc4fr7rnvdyszcxppqbhvywvjcd4"; // Replace with your subdomain
     var clientId = "mn45cd0jj7p35w185ezn8l1t"; // Replace with your Client ID
     var clientSecret = "XB2QlLYh5GtRYrhPcVkACrgc"; // Replace with your Client Secret
-    var mustContainString = "QRbla" // Replace with your must contain naming convention
+    var mustContainString = "QRhaha" // Replace with your must contain naming convention
+    var maxDate = "2025-01-01" // Replace with your date, assets created before such date will be target for deletion format "yyyy-mm-dd" sample "2025-05-28"
     var asset_id = [];
 
     var accessToken = getAccessToken(clientId, clientSecret, subDomain);
@@ -50,7 +51,7 @@ v2
                 {
                     "property": "createdDate",
                     "simpleOperator": "lessThan",
-                    "value": "2025-01-01T13:35:27.327-06:00"
+                    "value": maxDate + "T13:35:27.327-06:00"
                 },
                 "logicalOperator": "AND",
                 "rightOperand":

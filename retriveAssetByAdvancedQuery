@@ -78,7 +78,7 @@
         var headerValue = [bearerToken];
         try {
             var result = HTTP.Post(endpoint, contenttype, Stringify(payload), headerName, headerValue);
-            Write(result.Content);
+            Write(Stringify(result));
             
         } catch (error) {
             Write("fuck");

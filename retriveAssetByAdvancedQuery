@@ -86,9 +86,10 @@
             Write(Stringify(responseJson));
             var restUrl = responseJson.rest_instance_url;
         } else {
-            throw new Error("Error fetching access token");
+            throw new Error("Error");
         }
         return responseJson;
+        Write("returned");
     }
 
 

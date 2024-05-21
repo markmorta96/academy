@@ -8,6 +8,7 @@
 
     var accessToken = getAccessToken(clientId, clientSecret, subDomain);
     queryAssets(accessToken, subDomain);
+    Write(v1);
 
 
     // Function to get access token
@@ -86,7 +87,7 @@
         };
             
         } catch (error) {
-            error;
+            Write(fuck);
         }
         
     }

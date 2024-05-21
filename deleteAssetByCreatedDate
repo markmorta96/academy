@@ -1,4 +1,4 @@
-v1
+v2
 <script runat="server">
     Platform.Load("Core", "1");
 
@@ -7,9 +7,10 @@ v1
     var clientId = "mn45cd0jj7p35w185ezn8l1t"; // Replace with your Client ID
     var clientSecret = "XB2QlLYh5GtRYrhPcVkACrgc"; // Replace with your Client Secret
     var mustContainString = "QRbla" // Replace with your must contain naming convention
+    var asset_id = [];
 
     var accessToken = getAccessToken(clientId, clientSecret, subDomain);
-    var asset_id = queryAssets(accessToken, subDomain);
+    queryAssets(accessToken, subDomain);
     for (var i = 0; i < asset_id.length; i++) {
         deleteAsset(accessToken, subDomain, asset_id[i]);
     }
@@ -86,8 +87,8 @@ v1
             var items = jsonResponse.items;
             for (var i = 0; i < items.length; i++) {
                 Write("Asset ID: " + items[i].id + "<br>");
+                asset_id[i] = items[i].id;
             }
-            return items;
         } catch (error) {
             Write(fuck);
         }

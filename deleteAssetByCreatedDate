@@ -124,7 +124,7 @@ v1
 
             Write(Stringify(result));
             if(result == "200"){
-              Write("Asset " + assetID + "has been Deleted");
+              Write("Asset " + assetID + "has been Deleted, ");
             }else {
               Write("Error");
             }

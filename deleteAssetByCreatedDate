@@ -91,7 +91,7 @@ v1
                 asset_id[i] = items[i].id;
             }
         } catch (error) {
-            Write(fuck);
+            Write("Error");
         }
         
     }

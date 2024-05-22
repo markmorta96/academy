@@ -37,6 +37,7 @@ v1
         return accessToken;
     }
 
+    // Function to query the assets by created_date and name 
     function queryAssets(accessToken2, subDomain2) {
         var payload = {
             "page":
@@ -96,6 +97,7 @@ v1
         
     }
 
+    // Function to delete the returned assets
     function deleteAsset(accessToken3, subDomain3, assetID) {
         var api = new Script.Util.WSProxy();
         Write(assetID);

@@ -38,7 +38,7 @@
                         Write("</table>");
 
                         if (action === "Publish") {
-                            var tsd = TriggeredSend.Init(results[0]);
+                            var tsd = TriggeredSend.Init(results[0].CustomerKey);
                             var status = tsd.Publish();
                             Write("Publish Status: " + Stringify(status));
                         }

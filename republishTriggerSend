@@ -12,7 +12,7 @@
                 var tsd_name = Request.GetQueryStringParameter("Tsd_Name");
             
                 var filter = {
-                    Property: "CustomerKey",
+                    Property: "Name",
                     SimpleOperator: "equals",
                     Value: tsd_name
                 }

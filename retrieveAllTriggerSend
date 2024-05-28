@@ -1,0 +1,34 @@
+<script runat="server">
+Platform.Load("Core", "1.1.5");
+
+try {
+    // Define the statuses you want to retrieve
+    var statuses = ["Active", "Inactive", "New"];
+
+    // Retrieve triggered send definitions with specified statuses
+    var results = TriggeredSend.Retrieve({Property: "TriggeredSendStatus", SimpleOperator: "IN", Value: statuses});
+
+    // Check if results were returned
+    if (results && results.length > 0) {
+        // Start building the HTML table
+        var htmlTable = "<table border='1'><thead><tr><th>Triggered Send Name</th><th>Customer Key</th><th>Status</th></tr></thead><tbody>";
+
+        // Iterate through each triggered send definition and add to the HTML table
+        for (var i = 0; i < results.length; i++) {
+            var triggeredSend = results[i];
+            htmlTable += "<tr><td>" + triggeredSend.Name + "</td><td>" + triggeredSend.CustomerKey + "</td><td>" + triggeredSend.TriggeredSendStatus + "</td></tr>";
+            // You can add more columns here for additional properties if needed
+        }
+
+        // Close the HTML table
+        htmlTable += "</tbody></table>";
+
+        // Output the HTML table
+        Write(htmlTable);
+    } else {
+        Write("No triggered send definitions found with specified statuses.");
+    }
+} catch (ex) {
+    Write("An error occurred: " + Stringify(ex));
+}
+</script>

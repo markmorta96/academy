@@ -24,13 +24,13 @@
 
                     if (results && results.length > 0) {
                         Write("<table border='1' cellpadding='5' cellspacing='0'>");
-                        Write("<tr><th>ID</th><th>Name</th><th>Description</th><th>Status</th></tr>");
+                        Write("<tr><th>ID</th><th>Name</th><th>CustomerKey</th><th>Status</th></tr>");
 
                         for (var i = 0; i < results.length; i++) {
                             Write("<tr>");
                             Write("<td>" + results[i].ObjectID + "</td>");
                             Write("<td>" + results[i].Name + "</td>");
-                            Write("<td>" + results[i].Description + "</td>");
+                            Write("<td>" + results[i].CustomerKey + "</td>");
                             Write("<td>" + results[i].Status + "</td>");
                             Write("</tr>");
                         }

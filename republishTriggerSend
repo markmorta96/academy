@@ -8,8 +8,6 @@
             </form><br><b>Trigger Send Found :</b>
             <script runat="server">
                 Platform.Load("Core", "1");
-
-                // Retrieve the Tsd_Name from the POST request
                 var tsd_name = Request.GetFormField("Tsd_Name");
 
                 if (tsd_name) {

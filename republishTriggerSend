@@ -1,14 +1,17 @@
 <table style="padding: 20px;">
     <tr>
         <td>
-            <b>Type the name of the Trigger Send to publish </b><br>
+            <b>Type the name of the Trigger Send to search or publish</b><br>
             <form action="%%=RequestParameter('PAGEURL')=%%" method="post">
                 <input type="text" name="Tsd_Name" value="" maxlength="128"><br>
-                <input type="submit" value="Submit">
-            </form><br><b>Trigger Send Found :</b>
+                <input type="submit" name="action" value="Search">
+                <input type="submit" name="action" value="Publish">
+            </form><br>
+            <b>Trigger Send Result:</b><br>
             <script runat="server">
                 Platform.Load("Core", "1");
                 var tsd_name = Request.GetFormField("Tsd_Name");
+                var action = Request.GetFormField("action");
 
                 if (tsd_name) {
                     var filter = {
@@ -19,14 +22,26 @@
 
                     var results = TriggeredSend.Retrieve(filter);
 
-                    // Check if results are found and proceed
                     if (results && results.length > 0) {
-                        Write("Found Trigger Send: " + tsd_name + "<br>");
-                        Write(Stringify(results));
+                        Write("<table border='1' cellpadding='5' cellspacing='0'>");
+                        Write("<tr><th>ID</th><th>Name</th><th>Description</th><th>Status</th></tr>");
 
-                        var tsd = TriggeredSend.Init(results[0]);
-                        //var status = tsd.Publish();
-                        Write("Publish Status: " + Stringify(status));
+                        for (var i = 0; i < results.length; i++) {
+                            Write("<tr>");
+                            Write("<td>" + results[i].ObjectID + "</td>");
+                            Write("<td>" + results[i].Name + "</td>");
+                            Write("<td>" + results[i].Description + "</td>");
+                            Write("<td>" + results[i].Status + "</td>");
+                            Write("</tr>");
+                        }
+
+                        Write("</table>");
+
+                        if (action === "Publish") {
+                            var tsd = TriggeredSend.Init(results[0]);
+                            var status = tsd.Publish();
+                            Write("Publish Status: " + Stringify(status));
+                        }
                     } else {
                         Write("No Trigger Send found with the name: " + tsd_name);
                     }

@@ -1,13 +1,13 @@
 <table style="padding: 20px;">
     <tr>
         <td>
-            <b>Type the name of the Trigger Send to search or publish</b><br>
+            <b>Type the name of the Triggered Send to search or publish</b><br>
             <form action="%%=RequestParameter('PAGEURL')=%%" method="post">
                 <input type="text" name="Tsd_Name" value="" maxlength="128"><br>
                 <input type="submit" name="action" value="Search">
                 <input type="submit" name="action" value="Publish">
             </form><br>
-            <b>Trigger Send Result:</b><br>
+            <b>Triggered Send Result:</b><br>
             <script runat="server">
                 Platform.Load("Core", "1");
                 var tsd_name = Request.GetFormField("Tsd_Name");
@@ -43,10 +43,10 @@
                             Write("Publish Status: " + Stringify(status));
                         }
                     } else {
-                        Write("No Trigger Send found with the name: " + tsd_name);
+                        Write("No Triggered Send found with the name: " + tsd_name);
                     }
                 } else {
-                    Write("Please enter a Trigger Send name.");
+                    Write("Please enter a Triggered Send name.");
                 }
             </script>
         </td>

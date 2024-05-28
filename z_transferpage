@@ -1,0 +1,66 @@
+<script runat="server">
+    Platform.Load("Core", "1");
+
+
+    var tsd_key = "" //your trigger send definition key
+
+    var filter = {
+        Property: "CustomerKey",
+        SimpleOperator: "equals",
+        Value: tsd_key
+    }
+    var results = TriggeredSend.Retrieve(filter);
+    var tsd = TriggeredSend.Init(results);
+    var status = tsd.Publish();
+</script>
+
+<table style="padding: 20px;">
+    <tr>
+        <td>
+            <b>Type the name of the Trigger Send to publish </b><br>
+            <form action="%%=RequestParameter('PAGEURL')=%%" method="post">
+                <input type="text" name="Tsd_Name" value="" maxlength="128"><br>
+                <input type="submit" value="Submit">
+            </form><br><b>Trigger Send Found </b>
+            <script runat="server">
+                Platform.Load("Core", "1");           
+
+                var tsd_name = Request.GetQueryStringParameter("Tsd_Name");
+            
+                var filter = {
+                    Property: "CustomerKey",
+                    SimpleOperator: "equals",
+                    Value: tsd_key
+                }
+                var results = TriggeredSend.Retrieve(filter);
+                Write(Stringify(results))
+                var tsd = TriggeredSend.Init(results);
+                var status = tsd.Publish();
+                Write(Publish);
+            </script>
+        </td>
+    </tr>
+</table>
+
+
+<script runat="server">
+    Platform.Load("core","1.1.5");  
+    var DEprop = Request.GetQueryStringParameter("DEprop");
+    var DEval = Request.GetQueryStringParameter("DEval");
+    var FindDE = DataExtension.Retrieve({Property:DEprop,SimpleOperator:"equals",Value:DEval});
+    var FolderID = FindDE[0].CategoryID;
+    var DEname = FindDE[0].Name;
+    var list = [];
+      list.push(DEname);
+    var path = function(id) {
+        if (id> 0) {
+            var results = Folder.Retrieve({Property:"ID",SimpleOperator:"equals",Value:id});
+        list.unshift(results [0].Name);
+            return path(results[0].ParentFolder.ID);
+        } else {
+            return id;
+        }
+    };
+    path(FolderID);
+    Write(list.join("> "));
+    </script>

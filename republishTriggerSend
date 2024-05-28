@@ -1,0 +1,27 @@
+<table style="padding: 20px;">
+    <tr>
+        <td>
+            <b>Type the name of the Trigger Send to publish </b><br>
+            <form action="%%=RequestParameter('PAGEURL')=%%" method="post">
+                <input type="text" name="Tsd_Name" value="" maxlength="128"><br>
+                <input type="submit" value="Submit">
+            </form><br><b>Folder path: </b>
+            <script runat="server">
+                Platform.Load("Core", "1");           
+
+                var tsd_name = Request.GetQueryStringParameter("Tsd_Name");
+            
+                var filter = {
+                    Property: "CustomerKey",
+                    SimpleOperator: "equals",
+                    Value: tsd_key
+                }
+                var results = TriggeredSend.Retrieve(filter);
+                Write(Stringify(results))
+                var tsd = TriggeredSend.Init(results);
+                var status = tsd.Publish();
+                Write(Publish);
+            </script>
+        </td>
+    </tr>
+</table>

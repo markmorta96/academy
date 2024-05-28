@@ -7,20 +7,34 @@
                 <input type="submit" value="Submit">
             </form><br><b>Trigger Send Found :</b>
             <script runat="server">
-                Platform.Load("Core", "1");           
+                Platform.Load("Core", "1");
 
-                var tsd_name = Request.GetQueryStringParameter("Tsd_Name");
-            
-                var filter = {
-                    Property: "Name",
-                    SimpleOperator: "equals",
-                    Value: tsd_name
+                // Retrieve the Tsd_Name from the POST request
+                var tsd_name = Request.GetFormField("Tsd_Name");
+
+                if (tsd_name) {
+                    var filter = {
+                        Property: "Name",
+                        SimpleOperator: "equals",
+                        Value: tsd_name
+                    };
+
+                    var results = TriggeredSend.Retrieve(filter);
+
+                    // Check if results are found and proceed
+                    if (results && results.length > 0) {
+                        Write("Found Trigger Send: " + tsd_name + "<br>");
+                        Write(Stringify(results));
+
+                        var tsd = TriggeredSend.Init(results[0]);
+                        //var status = tsd.Publish();
+                        Write("Publish Status: " + Stringify(status));
+                    } else {
+                        Write("No Trigger Send found with the name: " + tsd_name);
+                    }
+                } else {
+                    Write("Please enter a Trigger Send name.");
                 }
-                var results = TriggeredSend.Retrieve(filter);
-                Write(Stringify(results))
-                var tsd = TriggeredSend.Init(results);
-                //var status = tsd.Publish();
-                Write(Publish);
             </script>
         </td>
     </tr>

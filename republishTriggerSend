@@ -14,7 +14,7 @@
                 var filter = {
                     Property: "CustomerKey",
                     SimpleOperator: "equals",
-                    Value: tsd_key
+                    Value: tsd_name
                 }
                 var results = TriggeredSend.Retrieve(filter);
                 Write(Stringify(results))

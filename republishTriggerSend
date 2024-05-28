@@ -5,7 +5,7 @@
             <form action="%%=RequestParameter('PAGEURL')=%%" method="post">
                 <input type="text" name="Tsd_Name" value="" maxlength="128"><br>
                 <input type="submit" value="Submit">
-            </form><br><b>Trigger Send Found </b>
+            </form><br><b>Trigger Send Found :</b>
             <script runat="server">
                 Platform.Load("Core", "1");           
 

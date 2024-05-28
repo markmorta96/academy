@@ -31,7 +31,7 @@
                             Write("<td>" + results[i].ObjectID + "</td>");
                             Write("<td>" + results[i].Name + "</td>");
                             Write("<td>" + results[i].CustomerKey + "</td>");
-                            Write("<td>" + results[i].TriggerSendStatus + "</td>");
+                            Write("<td>" + results[i].TriggeredSendStatus + "</td>");
                             Write("</tr>");
                         }
 

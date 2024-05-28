@@ -5,7 +5,7 @@
             <form action="%%=RequestParameter('PAGEURL')=%%" method="post">
                 <input type="text" name="Tsd_Name" value="" maxlength="128"><br>
                 <input type="submit" value="Submit">
-            </form><br><b>Folder path: </b>
+            </form><br><b>Trigger Send Found </b>
             <script runat="server">
                 Platform.Load("Core", "1");           
 
@@ -19,7 +19,7 @@
                 var results = TriggeredSend.Retrieve(filter);
                 Write(Stringify(results))
                 var tsd = TriggeredSend.Init(results);
-                var status = tsd.Publish();
+                //var status = tsd.Publish();
                 Write(Publish);
             </script>
         </td>

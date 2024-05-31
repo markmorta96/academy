@@ -4,43 +4,28 @@ a
     Platform.Load("core", "1");
 
     var api = new Script.Util.WSProxy();
-	
-	try {
+ 
+ try {
         var cols = [
             "Name",
             "CustomerKey",
             "IsActive",
-            "Status",
+            "Status"
         ];
 
-        var result = api.retrieve("Automation", cols {
+        var result = api.retrieve("Automation", cols, {
             Property: "Name",
-            SimpleOperator: "NotNull",
+            SimpleOperator: "isNotNull",
             Value: ""
         });
 
 
-        // Start building the HTML table
-        var html = "<table border='1'><tr>";
-        for (var i = 0; i < cols.length; i++) {
-            html += "<th>" + cols[i] + "</th>";
-        }
-        html += "</tr>";
+        
 
-        // Populate the table rows with data
-        for (var j = 0; j < result.Results.length; j++) {
-            html += "<tr>";
-            for (var k = 0; k < cols.length; k++) {
-                html += "<td>" + result.Results[j][cols[k]] + "</td>";
-            }
-            html += "</tr>";
-        }
-        html += "</table>";
+        Write(Stringify(result));
 
-        Write(html);
-
-	} catch(error) {
+ } catch(error) {
         Write(Stringify(error));
-    }	
+    } 
 
 </script>

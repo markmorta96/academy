@@ -61,9 +61,9 @@
         }
 
         var html = '<table border="1"><tr><th>Automation Name</th><th>CustomerKey</th><th>Description</th><th>IsActive</th></tr>';
-        for (var i = 0; i < data.Results.length; i++) {
-            html += '<tr><td>' + data.Results[i].Name + '</td><td>' + data.Results[i].CustomerKey + '</td><td>' + data.Results[i].Description +
-                '</td><td>' + data.Results[i].IsActive + '</td></tr>';
+        for (var i = 0; i < out.length; i++) {
+            html += '<tr><td>' + out[i].Name + '</td><td>' + out[i].CustomerKey + '</td><td>' + out[i].Description +
+                '</td><td>' + out[i].IsActive + '</td></tr>';
         }
 
         html += '</table>';

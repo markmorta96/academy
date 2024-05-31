@@ -1,42 +1,67 @@
-c
 <script runat="server">
 
-    Platform.Load("core", "1");
+    Platform.Load("Core","1");
 
     var api = new Script.Util.WSProxy();
-    var config = {
-        parentBU: '518003676'
+
+    try {
+
+        var automations = retrieveAllAutomations();
+
+        Write(Stringify(automations));
+
+    } catch(err) {
+
+        Write(Stringify(err));
+
     }
- try {
+
+    function retrieveAllAutomations() {
+
+        var out = [],
+            moreData = true,
+            reqID = data = null;
+
         var cols = [
             "Name",
+            "Description",
             "CustomerKey",
-            "Status"
-        ];
-        
+            "IsActive"
+        ];  
+
         var filter = {
-            LeftOperand: {
-                Property: 'CustomerKey',
-                SimpleOperator: 'isNotNull',
-                Value: ' '
-            },
-            LogicalOperator: "AND",
-            RightOperand: {
-                Property: 'Client.ID',
-                SimpleOperator: 'equals',
-                Value: config.parentBU
-            }
+            Property: 'Status',
+            SimpleOperator: 'IN',
+            Value: [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8]
         };
 
-        var result = api.retrieve("Automation", cols, filter);
+        var opts = {
+            BatchSize: 300
+        };
 
+        var props = {
+            QueryAllAccounts: false
+        };
 
-        
+        while (moreData) {
 
-        Write(Stringify(result));
+            moreData = false;
 
- } catch(error) {
-        Write(Stringify(error));
-    } 
+            if(reqID) props.ContinueRequest = reqID;
 
-</script>
+            var data = api.retrieve("Automation", cols, filter, opts, props);
+
+            if (data) {
+                moreData = data.HasMoreRows;
+                reqID = data.RequestID;
+                for (var i = 0; i < data.Results.length; i++) {
+                    out.push(data.Results[i]);
+                }
+            }
+        }
+
+        return out;
+
+    }
+
+</script> 

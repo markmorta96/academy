@@ -1,0 +1,53 @@
+<script runat="server">
+
+    Platform.Load("Core", "1");
+
+    var api = new Script.Util.WSProxy();
+
+    var AutomationToPerform = 'example' //Name of the DataExtension containing the list of Automation to Start or Stop
+    //must have two fields: 'Name' (name of the DE) and 'isprocessed' (boolean value with default value false)
+
+    var stst = 'example'                // put 0 to stop and 1 to start the automations
+
+
+    var rowstoprocess = DataExtension.Init(AutomationToPerform).Rows.Lookup(["isprocessed"], [0])
+
+    for (j = 0; j < rowstoprocess.length; j++) {
+        try {
+            var automationName = rowstoprocess[j].Name
+
+            var cols = [
+                "Name",
+                "ProgramID",
+                "CustomerKey",
+                "Status"
+            ];
+
+            var request = api.retrieve("Automation", cols, {
+                Property: "Name",
+                SimpleOperator: "equals",
+                Value: automationName
+            });
+
+            var objectID = request.Results[0].ObjectID;
+
+            var props = {
+                ObjectID: objectID
+            };
+
+            var action = ["start", "stop"];
+
+            var opts = {};
+
+            var result = api.performItem("Automation", props, action[statusbar], opts);
+
+            DataExtension.Init(AutomationToPerform).Rows.Update({ "isprocessed": "1" }, ["Name"], [automationName]);
+            Write(Stringify(result));
+
+        } catch (error) {
+            Write(Stringify(error));
+        }
+    }
+
+
+</script>

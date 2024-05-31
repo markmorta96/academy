@@ -1,6 +1,6 @@
 <script runat="server">
 
-    Platform.Load("Core","1");
+    Platform.Load("Core", "1");
 
     var api = new Script.Util.WSProxy();
 
@@ -10,7 +10,7 @@
 
         Write(Stringify(automations));
 
-    } catch(err) {
+    } catch (err) {
 
         Write(Stringify(err));
 
@@ -27,7 +27,7 @@
             "Description",
             "CustomerKey",
             "IsActive"
-        ];  
+        ];
 
         var filter = {
             Property: 'Status',
@@ -47,7 +47,7 @@
 
             moreData = false;
 
-            if(reqID) props.ContinueRequest = reqID;
+            if (reqID) props.ContinueRequest = reqID;
 
             var data = api.retrieve("Automation", cols, filter, opts, props);
 
@@ -60,8 +60,16 @@
             }
         }
 
-        return out;
+        var html = '<table border="1"><tr><th>Automation Name</th><th>CustomerKey</th><th>Description</th><th>IsActive</th></tr>';
+        for (var i = 0; i < data.Results.length; i++) {
+            html += '<tr><td>' + data.Results[i].Name + '</td><td>' + data.Results[i].CustomerKey + '</td><td>' + data.Results[i].Description +
+                '</td><td>' + data.Results[i].IsActive + '</td></tr>';
+        }
+
+        html += '</table>';
+
+        Write(html);
 
     }
 
-</script> 
+</script>

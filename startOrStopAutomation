@@ -39,7 +39,7 @@
 
             var opts = {};
 
-            var result = api.performItem("Automation", props, action[statusbar], opts);
+            var result = api.performItem("Automation", props, action[stst], opts);
 
             DataExtension.Init(AutomationToPerform).Rows.Update({ "isprocessed": "1" }, ["Name"], [automationName]);
             Write(Stringify(result));

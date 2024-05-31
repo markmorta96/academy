@@ -36,7 +36,7 @@
         };
 
         var opts = {
-            BatchSize: 300
+            BatchSize: 600
         };
 
         var props = {

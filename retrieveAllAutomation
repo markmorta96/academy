@@ -4,7 +4,9 @@ a
     Platform.Load("core", "1");
 
     var api = new Script.Util.WSProxy();
- 
+    var config = {
+        parentBU: '518003676'
+    }
  try {
         var cols = [
             "Name",
@@ -12,12 +14,22 @@ a
             "IsActive",
             "Status"
         ];
+        
+        var filter = {
+            LeftOperand: {
+                Property: 'CustomerKey',
+                SimpleOperator: 'isNotNull',
+                Value: ' '
+            },
+            LogicalOperator: "AND",
+            RightOperand: {
+                Property: 'Client.ID',
+                SimpleOperator: 'equals',
+                Value: config.parentBU
+            }
+        };
 
-        var result = api.retrieve("Automation", cols, {
-            Property: "Name",
-            SimpleOperator: "isNotNull",
-            Value: ""
-        });
+        var result = api.retrieve("Automation", cols, filter);
 
 
         

@@ -1,66 +1,10 @@
-<script runat="server">
-    Platform.Load("Core", "1");
-
-
-    var tsd_key = "" //your trigger send definition key
-
-    var filter = {
-        Property: "CustomerKey",
-        SimpleOperator: "equals",
-        Value: tsd_key
-    }
-    var results = TriggeredSend.Retrieve(filter);
-    var tsd = TriggeredSend.Init(results);
-    var status = tsd.Publish();
-</script>
-
-<table style="padding: 20px;">
-    <tr>
-        <td>
-            <b>Type the name of the Trigger Send to publish </b><br>
-            <form action="%%=RequestParameter('PAGEURL')=%%" method="post">
-                <input type="text" name="Tsd_Name" value="" maxlength="128"><br>
-                <input type="submit" value="Submit">
-            </form><br><b>Trigger Send Found </b>
-            <script runat="server">
-                Platform.Load("Core", "1");           
-
-                var tsd_name = Request.GetQueryStringParameter("Tsd_Name");
-            
-                var filter = {
-                    Property: "CustomerKey",
-                    SimpleOperator: "equals",
-                    Value: tsd_key
-                }
-                var results = TriggeredSend.Retrieve(filter);
-                Write(Stringify(results))
-                var tsd = TriggeredSend.Init(results);
-                var status = tsd.Publish();
-                Write(Publish);
-            </script>
-        </td>
-    </tr>
-</table>
-
-
-<script runat="server">
-    Platform.Load("core","1.1.5");  
-    var DEprop = Request.GetQueryStringParameter("DEprop");
-    var DEval = Request.GetQueryStringParameter("DEval");
-    var FindDE = DataExtension.Retrieve({Property:DEprop,SimpleOperator:"equals",Value:DEval});
-    var FolderID = FindDE[0].CategoryID;
-    var DEname = FindDE[0].Name;
-    var list = [];
-      list.push(DEname);
-    var path = function(id) {
-        if (id> 0) {
-            var results = Folder.Retrieve({Property:"ID",SimpleOperator:"equals",Value:id});
-        list.unshift(results [0].Name);
-            return path(results[0].ParentFolder.ID);
-        } else {
-            return id;
-        }
-    };
-    path(FolderID);
-    Write(list.join("> "));
-    </script>
+Error Code: 53010
+Request Id: 1ba2e662-55a1-4e25-a815-95a4d5313301
+Correlation Id: 16247037-eac0-4f96-9e93-bf5ab7e42259
+Timestamp: 2024-06-03T14:16:51.414Z
+App name: Microsoft Authenticator App
+App id: 4813382a-8fa7-425e-ab75-3b753aab3abb
+IP address: 123.253.51.49
+Device identifier: 147e8b4b-b19f-44bd-abd0-a1a90fcb9e70
+Device platform: Android
+Device state: Registered

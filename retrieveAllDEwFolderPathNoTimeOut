@@ -83,11 +83,7 @@
             Write(Stringify({
                 status: (req.HasMoreRows) ? 201 : 200,
                 reqID: req.RequestID,
-                results: resName,
-                         resCustomerKey,
-                         resCategoryID,
-                         resModifiedDate,
-                         resFolderPath
+                results: resName
             }));
 
         } else {
@@ -132,20 +128,13 @@
     
     <table x-data="myApp()">
         <tr>
+            <th>Number</th>
             <th>Name</th>
-            <th>CustomerKey</th>
-            <th>CategoryID</th>
-            <th>ModifiedDate</th>
-            <th>FolderPath</th>
         </tr>
-        <template x-for="(Name, CustomerKey, CategoryID, ModifiedDate, FolderPath) in results">
+        <template x-for="(name, i) in results">
             <tr>
-                <td x-text="Name"></td>
-                <td x-text="CustomerKey"></td>
-                <td x-text="CategoryID"></td>
-                <td x-text="ModifiedDate"></td>
-                <td x-text="FolderPath"></td>
-            </tr>
+                <td x-text="i"></td>
+                <td x-text="name"></td>
         </template>
     </table>
 
@@ -188,7 +177,7 @@
 
     </script>
     <p>
-    v3
+    vew
     </p>
 </body>
 </html>

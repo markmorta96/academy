@@ -76,7 +76,7 @@
                 resCustomerKey.push(results[k].CustomerKey);
                 resCategoryID.push(results[k].CategoryID);
                 resModifiedDate.push(results[k].ModifiedDate);
-                resFolderPath.push(pathFolder(request.Results[k].Name, request.Results[k].CategoryID));
+                resFolderPath.push(pathFolder(results[k].Name, results[k].CategoryID));
                 
             }
 

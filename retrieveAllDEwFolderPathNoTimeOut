@@ -68,7 +68,7 @@
 
             for (var k in results) {
                 resName.push(results[k].Name);
-                
+
             }
 
             Write(Stringify({
@@ -91,14 +91,16 @@
 %%[IF @ContentJson != "True" THEN]%%
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
 </head>
+
 <body>
-    
+
     <table x-data="myApp()">
         <tr>
             <th>Number</th>
@@ -124,11 +126,11 @@
                 },
                 async performRequests() {
 
-                    while(this.status != 200) {
+                    while (this.status != 200) {
 
                         let req = await this.performSingleRequest(this.reqID);
 
-                        if(req.status == 500) break;
+                        if (req.status == 500) break;
 
                         this.status = req.status;
                         this.reqID = req.reqID;
@@ -136,12 +138,12 @@
 
                     }
 
-                    this.reqID = null
+                    this.reqID = null;
 
                 },
                 async performSingleRequest(reqID) {
 
-                    return await (await fetch("%%=RequestParameter('PAGEURL')=%%", { method: "POST", body: JSON.stringify({ reqID: reqID }) } )).json();
+                    return await (await fetch("%%=RequestParameter('PAGEURL')=%%", { method: "POST", body: JSON.stringify({ reqID: reqID }) })).json();
 
                 }
             }
@@ -150,8 +152,9 @@
 
     </script>
     <p>
-    vew
+        vew
     </p>
 </body>
+
 </html>
 %%[ENDIF]%%

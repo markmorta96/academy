@@ -12,6 +12,7 @@
     try {
 
         if (post == null) return;
+
         var resName = [];
         var resCustomerKey = [];
         var resCategoryID = [];
@@ -83,10 +84,10 @@
                 status: (req.HasMoreRows) ? 201 : 200,
                 reqID: req.RequestID,
                 results: resName,
-                results2: resCustomerKey,
-                results3: resCategoryID,
-                results4: resModifiedDate,
-                results5: resFolderPath
+                         resCustomerKey,
+                         resCategoryID,
+                         resModifiedDate,
+                         resFolderPath
             }));
 
         } else {
@@ -137,7 +138,7 @@
             <th>ModifiedDate</th>
             <th>FolderPath</th>
         </tr>
-        <template x-for="(Name, CustomerKey, CategoryID, ModifiedDate,FolderPath) in results">
+        <template x-for="(Name, CustomerKey, CategoryID, ModifiedDate, FolderPath) in results">
             <tr>
                 <td x-text="Name"></td>
                 <td x-text="CustomerKey"></td>
@@ -170,10 +171,6 @@
                         this.status = req.status;
                         this.reqID = req.reqID;
                         this.results = [...new Set([...this.results, ...req.results])];
-                        this.results2 = [...new Set([...this.results2, ...req.results2])];
-                        this.results3 = [...new Set([...this.results3, ...req.results3])];
-                        this.results4 = [...new Set([...this.results4, ...req.results4])];
-                        this.results5 = [...new Set([...this.results5, ...req.results5])];
 
                     }
 
@@ -191,7 +188,7 @@
 
     </script>
     <p>
-    dfsj
+    v3
     </p>
 </body>
 </html>

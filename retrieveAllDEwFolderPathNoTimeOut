@@ -134,7 +134,7 @@
             <th>Number</th>
             <th>Name</th>
         </tr>
-        <template x-for="(name, i) in results">
+        <template x-for="(name, CustomerKey, CategoryID, ModifiedDate,FolderPath) in results">
             <tr>
                 <td x-text="Name"></td>
                 <td x-text="CustomerKey"></td>

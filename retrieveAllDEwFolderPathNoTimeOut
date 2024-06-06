@@ -50,11 +50,6 @@
             }
         };
 
-        
-        var result = [];
-        
-        return result;
-
         var opts = {
             BatchSize: 30
         };

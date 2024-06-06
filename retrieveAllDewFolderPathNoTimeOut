@@ -1,0 +1,195 @@
+<script runat="server">
+
+    Platform.Load("core", "1");
+    var api = new Script.Util.WSProxy();
+    var results = {};
+    var config = {
+        parentBU: '518003676',
+        folder1: '807708',
+        folder2: '807700'
+    }
+
+    try {
+
+        if (post == null) return;
+        var resName = [];
+        var resCustomerKey = [];
+        var resCategoryID = [];
+        var resModifiedDate = [];
+        var resFolderPath = [];
+
+        var filter = {
+            LeftOperand: {
+                Property: 'CustomerKey',
+                SimpleOperator: 'isNotNull',
+                Value: ' '
+            },
+            LogicalOperator: "AND",
+            RightOperand: {
+                LogicalOperator: "AND",
+                LeftOperand: {
+                    Property: 'Client.ID',
+                    SimpleOperator: 'equals',
+                    Value: config.parentBU
+                },
+                LogicalOperator: "AND",
+                RightOperand: {
+                    LogicalOperator: "OR",
+                    LeftOperand: {
+                        Property: 'CategoryID',
+                        SimpleOperator: 'equals',
+                        Value: config.folder1
+                    },
+                    RightOperand: {
+                        Property: 'CategoryID',
+                        SimpleOperator: 'equals',
+                        Value: config.folder2
+                    }
+                }
+            }
+        };
+
+        
+        var result = [];
+        
+        return result;
+
+        var opts = {
+            BatchSize: 30
+        };
+
+        var props = {
+            QueryAllAccounts: false
+        };
+
+        if (post.reqID) props.ContinueRequest = post.reqID;
+
+        var req = api.retrieve("DataExtension", ["Name", "CustomerKey", "CategoryID", "ModifiedDate"], filter, true);
+
+        if (req) {
+
+            var results = req.Results;
+
+            for (var k in results) {
+                resName.push(results[k].Name);
+                resCustomerKey.push(results[k].CustomerKey);
+                resCategoryID.push(results[k].CategoryID);
+                resModifiedDate.push(results[k].ModifiedDate);
+                resFolderPath.push(pathFolder(request.Results[k].Name, request.Results[k].CategoryID));
+                
+            }
+
+            Write(Stringify({
+                status: (req.HasMoreRows) ? 201 : 200,
+                reqID: req.RequestID,
+                results: resName,
+                results2: resCustomerKey,
+                results3: resCategoryID,
+                results4: resModifiedDate,
+                results5: resFolderPath
+            }));
+
+        } else {
+            throw req;
+        }
+
+    } catch (error) {
+        Write(Stringify(error));
+
+    }
+
+    function pathFolder(a, b) {
+        var FolderID = b;
+        var DEname = a;
+        var list = [];
+        list.push(DEname);
+        var path = function (id) {
+            if (id > 0) {
+                var results = Folder.Retrieve({ Property: "ID", SimpleOperator: "equals", Value: id });
+                list.unshift(results[0].Name);
+                return path(results[0].ParentFolder.ID);
+            } else {
+                return id;
+            }
+        };
+        path(FolderID);
+        var t = list.join("> ");
+        return (t);
+    }
+
+</script>
+%%[IF @ContentJson != "True" THEN]%%
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+</head>
+<body>
+    
+    <table x-data="myApp()">
+        <tr>
+            <th>Number</th>
+            <th>Name</th>
+        </tr>
+        <template x-for="(name, i) in results">
+            <tr>
+                <td x-text="Name"></td>
+                <td x-text="CustomerKey"></td>
+                <td x-text="CategoryID"></td>
+                <td x-text="ModifiedDate"></td>
+                <td x-text="FolderPath"></td>
+            </tr>
+        </template>
+    </table>
+
+    <script>
+
+        function myApp() {
+
+            return {
+                status: 100,
+                results: [],
+                reqID: null,
+                init() {
+                    this.performRequests();
+                },
+                async performRequests() {
+
+                    while(this.status != 200) {
+
+                        let req = await this.performSingleRequest(this.reqID);
+
+                        if(req.status == 500) break;
+
+                        this.status = req.status;
+                        this.reqID = req.reqID;
+                        this.results = [...new Set([...this.results, ...req.results])];
+                        this.results2 = [...new Set([...this.results2, ...req.results2])];
+                        this.results3 = [...new Set([...this.results3, ...req.results3])];
+                        this.results4 = [...new Set([...this.results4, ...req.results4])];
+                        this.results5 = [...new Set([...this.results5, ...req.results5])];
+
+                    }
+
+                    this.reqID = null
+
+                },
+                async performSingleRequest(reqID) {
+
+                    return await (await fetch("%%=RequestParameter('PAGEURL')=%%", { method: "POST", body: JSON.stringify({ reqID: reqID }) } )).json();
+
+                }
+            }
+
+        }
+
+    </script>
+    <p>
+    dfsj
+    </p>
+</body>
+</html>
+%%[ENDIF]%%

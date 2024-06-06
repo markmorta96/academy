@@ -73,10 +73,6 @@
 
             for (var k in results) {
                 resName.push(results[k].Name);
-                resCustomerKey.push(results[k].CustomerKey);
-                resCategoryID.push(results[k].CategoryID);
-                resModifiedDate.push(results[k].ModifiedDate);
-                resFolderPath.push(pathFolder(results[k].Name, results[k].CategoryID));
                 
             }
 
@@ -95,24 +91,6 @@
 
     }
 
-    function pathFolder(a, b) {
-        var FolderID = b;
-        var DEname = a;
-        var list = [];
-        list.push(DEname);
-        var path = function (id) {
-            if (id > 0) {
-                var results = Folder.Retrieve({ Property: "ID", SimpleOperator: "equals", Value: id });
-                list.unshift(results[0].Name);
-                return path(results[0].ParentFolder.ID);
-            } else {
-                return id;
-            }
-        };
-        path(FolderID);
-        var t = list.join("> ");
-        return (t);
-    }
 
 </script>
 %%[IF @ContentJson != "True" THEN]%%

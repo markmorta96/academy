@@ -131,10 +131,13 @@
     
     <table x-data="myApp()">
         <tr>
-            <th>Number</th>
             <th>Name</th>
+            <th>CustomerKey</th>
+            <th>CategoryID</th>
+            <th>ModifiedDate</th>
+            <th>FolderPath</th>
         </tr>
-        <template x-for="(name, CustomerKey, CategoryID, ModifiedDate,FolderPath) in results">
+        <template x-for="(Name, CustomerKey, CategoryID, ModifiedDate,FolderPath) in results">
             <tr>
                 <td x-text="Name"></td>
                 <td x-text="CustomerKey"></td>
@@ -188,7 +191,7 @@
 
     </script>
     <p>
-    v2
+    dfsj
     </p>
 </body>
 </html>

@@ -26,7 +26,7 @@
                 "DataRetentionPeriodLength": RetentionPeriod,
                 "DataRetentionPeriod": RetentionValue,
                 "ResetRetentionPeriodOnImport": True,
-                "DeleteAtEndOfRetentionPeriod": True
+                "DeleteAtEndOfRetentionPeriod": False
             };
 
             var result = api.updateItem("DataExtension", config);

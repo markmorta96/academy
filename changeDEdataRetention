@@ -25,9 +25,9 @@
                 "CustomerKey": customerKey,
                 "DataRetentionPeriodLength": RetentionPeriod,
                 "DataRetentionPeriod": RetentionValue,
-                "RowBasedRetention": False,
-                "ResetRetentionPeriodOnImport": True,
-                "DeleteAtEndOfRetentionPeriod": 1
+                "RowBasedRetention": false,
+                "ResetRetentionPeriodOnImport": true,
+                "DeleteAtEndOfRetentionPeriod": false
             };
 
             var result = api.updateItem("DataExtension", config);

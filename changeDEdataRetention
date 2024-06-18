@@ -3,12 +3,12 @@
     var DEsToChange = 'DestoChange'; //Name of the DE containing the list of DEs 
                                     //must have two fields: 'Name' (name of the DE) and 'isprocessed' (boolean value with default value false)
     var RetentionValue = 'Months' //Choose between 'Days' or 'Months'
-    var RetentionPeriod = 2; // RetentionPeriod number of months or days
+    var RetentionPeriod = 3; // RetentionPeriod number of months or days
 
     Platform.Load("core", "1");
 
     var api = new Script.Util.WSProxy();
-    var rowstoprocess = DataExtension.Init(DEsToChange).Rows.Lookup(["isprocessed"], [0]);
+    var rowstoprocess = DataExtension.Init(DEsToChange).Rows.Lookup(["isprocessed"], [1]);
 
     for (j = 0; j < rowstoprocess.length; j++) {
         try {
@@ -25,6 +25,7 @@
                 "CustomerKey": customerKey,
                 "DataRetentionPeriodLength": RetentionPeriod,
                 "DataRetentionPeriod": RetentionValue,
+                "RowBasedRetention": False,
                 "ResetRetentionPeriodOnImport": True,
                 "DeleteAtEndOfRetentionPeriod": False
             };

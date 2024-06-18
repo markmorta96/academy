@@ -8,7 +8,7 @@
     Platform.Load("core", "1");
 
     var api = new Script.Util.WSProxy();
-    var rowstoprocess = DataExtension.Init(DEsToChange).Rows.Lookup(["isprocessed"], [1]);
+    var rowstoprocess = DataExtension.Init(DEsToChange).Rows.Lookup(["isprocessed"], [0]);
 
     for (j = 0; j < rowstoprocess.length; j++) {
         try {
@@ -27,7 +27,7 @@
                 "DataRetentionPeriod": RetentionValue,
                 "RowBasedRetention": false,
                 "ResetRetentionPeriodOnImport": true,
-                "DeleteAtEndOfRetentionPeriod": false
+                "DeleteAtEndOfRetentionPeriod": true
             };
 
             var result = api.updateItem("DataExtension", config);

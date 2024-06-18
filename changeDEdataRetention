@@ -1,8 +1,9 @@
 <script runat="server">
 
     var DEsToChange = 'DestoChange'; //Name of the DE containing the list of DEs 
-    //must have two fields: 'Name' (name of the DE) and 'isprocessed' (boolean value with default value false)
-    var RetentionPeriod = 2; // RetentionPeriod in months OR days
+                                    //must have two fields: 'Name' (name of the DE) and 'isprocessed' (boolean value with default value false)
+    var RetentionValue = 'Months' //Choose between 'Days' or 'Months'
+    var RetentionPeriod = 2; // RetentionPeriod number of months or days
 
     Platform.Load("core", "1");
 
@@ -23,7 +24,7 @@
             var config = {
                 "CustomerKey": customerKey,
                 "DataRetentionPeriodLength": RetentionPeriod,
-                "DataRetentionPeriod": "Months",
+                "DataRetentionPeriod": RetentionValue,
                 "ResetRetentionPeriodOnImport": True,
                 "DeleteAtEndOfRetentionPeriod": True
             };

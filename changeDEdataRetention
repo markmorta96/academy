@@ -1,0 +1,39 @@
+<script runat="server">
+
+    var DEsToChange = 'DestoChange'; //Name of the DE containing the list of DEs 
+    //must have two fields: 'Name' (name of the DE) and 'isprocessed' (boolean value with default value false)
+    var RetentionPeriod = 2; // RetentionPeriod in months OR days
+
+    Platform.Load("core", "1");
+
+    var api = new Script.Util.WSProxy();
+    var rowstoprocess = DataExtension.Init(DEsToChange).Rows.Lookup(["isprocessed"], [0]);
+
+    for (j = 0; j < rowstoprocess.length; j++) {
+        try {
+
+            var dataExtensionName = rowstoprocess[j].Name;
+
+            var req = api.retrieve("DataExtension", ["CustomerKey"], {
+                Property: "Name",
+                SimpleOperator: "equals",
+                Value: dataExtensionName
+            });
+            var customerKey = req.Results[0].CustomerKey;
+            var config = {
+                "CustomerKey": customerKey,
+                "DataRetentionPeriodLength": RetentionPeriod,
+                "DataRetentionPeriod": "Months",
+                "ResetRetentionPeriodOnImport": True,
+                "DeleteAtEndOfRetentionPeriod": True
+            };
+
+            var result = api.updateItem("DataExtension", config);
+            DataExtension.Init(DEsToChange).Rows.Update({ "isprocessed": "1" }, ["Name"], [dataExtensionName]);
+
+        } catch (error) {
+
+        }
+    }
+
+</script>
